@@ -1,0 +1,59 @@
+
+.weibo {
+	margin: 10px 0;
+	padding:5px;
+	float:left;
+	position: relative;
+	width: 610px;
+	color:rgb(68, 68, 68);
+}
+
+.weibo .avatar {
+	float: left;
+	border-radius: 5px;
+    position: relative;
+    width: 64px;
+    height: 64px;
+    overflow:hidden;
+    zoom: 1;
+}
+
+.weibo .avatar a{
+	display: block;
+	box-shadow: 0px 1px 2px #999;
+	float: left;
+    width: 64px;
+    height: 64px;
+    outline: none;
+    border: none;
+    zoom: 1;
+}
+
+.weibo .content {
+	width:510px;
+	border:1px solid #ccc;
+	border-radius: 5px;
+	height: 100px;
+	float:right;
+	position: relative;
+	zoom: 1;
+	box-shadow: 0px 1px 2px #999;
+	
+}
+
+.weibo .content:before {
+	content:"";
+	background: url(/img/feed-icons.png) no-repeat 0 -150px;
+	display: block;
+	position: absolute;
+	width: 13px;
+	height: 20px;
+	background-color:#fff;
+	left:-13px;
+	top:20px;
+}
+
+.login-dialog {
+	margin: 10px 0;
+	padding:5px 10px 5px 0px;
+}

@@ -1,6 +1,6 @@
 <% include layoutTop.ejs %>
 	
-	<div class="row">  
+	<div class="row" style="position:relative;">  
 	  <div class="col-md-8">  
 	  	 <div class="weibo">
 	  	 		<div class="avatar">
@@ -68,7 +68,7 @@
 	  	 		</div>
 	  	 </div>
 
-	  	  <div class="weibo">
+	  	  <div class="weibo" style="">
 	  	 		<div class="avatar">
 	  	 			<a href="javascript:void(0)">
 	  	 				<img src="/img/test.jpeg"	/>
@@ -80,7 +80,7 @@
 	  	 </div>
 	  </div> 
 	 
-	  <div class="col-md-4" >  
+	  <div class="col-md-4" id="j_login_dialog" style="position:absolute;right:0px;">  
 	  	<div class="login-dialog">
 		   	<form role="form">
 					
@@ -91,7 +91,9 @@
 						    <input type="password" class="form-control input-lg" id="exampleInputPassword1" placeholder="密码">
 						 </div>
 				
-					  <button type="submit" class="btn btn-default">登录</button>
+					  <button type="submit" class="btn btn-default btn-lg" style="width:48%;">登录</button>
+					  	
+					   <button type="button" id="reg" class="btn btn-lg btn-success" style="width:48%;float:right;">注册</button>
 				</form>
 			</div>
 	  </div> 

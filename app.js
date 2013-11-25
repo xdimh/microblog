@@ -11,6 +11,7 @@ var http = require('http');
 var path = require('path');
 var MongoStore = require("connect-mongo")(express);
 var settings = require("./setting");
+var flash = require('connect-flash');
 
 var app = express();
 
@@ -30,8 +31,19 @@ app.use(express.session({
 		db : settings.db
 	})
 }));
+app.use(flash());
+
+app.use(function (req, res, next) {
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
+    res.locals.user = req.session.user;
+    next();
+});
+
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 // development only
 if ('development' == app.get('env')) {
@@ -42,7 +54,11 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.all('/userinfo',userinfo.display);
 app.get('/reg',routes.reg);
-
+app.post('/reg',routes.postReg);
+app.post('/login',routes.login);
+app.get('/user/:name',routes.user);
+app.get('/logout',routes.logout);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+ 

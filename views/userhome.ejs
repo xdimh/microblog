@@ -2,86 +2,149 @@
 
 <div class="row" style="position:relative;">  
 	  <div class="col-md-8">  
-	  	 <div class="textbox-header">
-	  	 	<h4 style="float:left;">随便说说</h4>
-	  	 	<h4 style="float:right;font-family: Georgia;color:#999;">还可以输入160个字</h4>
+	  	 <div class="textbox-header" style="overflow:hidden;zoom:1;">
+	  	 	<h4 style="float:left;font-size: 20px;">随便说说</h4>
+	  	 	<h4 style="float:right;color:#999;font-size: 12px;">还可以输入<span style="font-family:Georgia;font-size:22px;">160</span>个字</h4>
 	  	 </div>
-	     <textarea class="form-control" rows="3" style="width:610px;"></textarea>
-	  	 <div class="weibo">
-	  	 		<div class="avatar">
-	  	 			<a href="javascript:void(0)">
-	  	 				<img src="/img/test.jpeg"	/>
-	  	 			</a>
-	  	 		</div>
-	  	 		<div class="content">
+	     <textarea class="form-control" rows="4" style="width:610px;resize:none;"></textarea>
+	     <div class="func_area" style="position:relative;">
+		     <ul class="nav nav-pills">
+		     	<li class="f-btn"><h4><span class="label label-primary" data-toggle="popover">表情</span><h4></li>
+		     	<li class="f-btn"><h4><span class="label label-warning">图片</span><h4></li>
+		     	<li style="float:right"><button type="button" class="btn btn-success" style="margin-top:5px;margin-right:5px;outline:none;width:80px;">发布</button></li>
+		     	<li class="dropdown left" style="float:right">
+		           	  <a id="drop4" role="button" data-toggle="dropdown" href="#" style="outline:none;">公开<b class="caret"></b></a>
+			          <ul id="menu1" class="dropdown-menu pull-right" role="menu">
+			            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)">仅自己可见</a></li>
+			          </ul>
+        		</li>
+		     </ul>
 
-	  	 		</div>
-	  	 </div>
+		     <div class="tipbox bottom expression" style="max-width:none;width:417px;">
+		        <div class="arrow"></div>
+		       	  <ul class="nav nav-pills">
+					  <li class="active"><a href="#bzmh" data-toggle="tab">全部</a></li>
+					  <li><a href="#xxh" data-toggle="tab">我的微博</a></li>
+				  </ul>
 
-	  	  <div class="weibo">
-	  	 		<div class="avatar">
-	  	 			<a href="javascript:void(0)">
-	  	 				<img src="/img/test.jpeg"	/>
-	  	 			</a>
-	  	 		</div>
-	  	 		<div class="content">
 
-	  	 		</div>
-	  	 </div>
+					<div id="myTabContent" class="tab-content" style="padding:9px 14px;">
+				        <div class="tab-pane fade in active" id="bzmh">
+				       		 ffdfgdfgdgfg
+				        </div>
+				        <div class="tab-pane fade" id="xxh">
+				        	123456688999
+				        </div>
+			        </div>
+	     	 </div>
 
-	  	  <div class="weibo">
-	  	 		<div class="avatar">
-	  	 			<a href="javascript:void(0)">
-	  	 				<img src="/img/test.jpeg"	/>
-	  	 			</a>
-	  	 		</div>
-	  	 		<div class="content">
+	     	 <div class="tipbox bottom pictures" style="display:none;">
+		        <div class="arrow"></div>
+		        <h3 class="popover-title">图片</h3>
+		        <div class="popover-content">
+		          <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+		        </div>
+	     	 </div>
+	     </div>
 
-	  	 		</div>
-	  	 </div>
+	     <div style="margin-top:50px;margin-bottom:10px;"></div>
 
-	  	  <div class="weibo">
-	  	 		<div class="avatar">
-	  	 			<a href="javascript:void(0)">
-	  	 				<img src="/img/test.jpeg"	/>
-	  	 			</a>
-	  	 		</div>
-	  	 		<div class="content" style="height:500px;">
+	     <ul class="nav nav-tabs">
+		  <li class="active"><a href="#home" data-toggle="tab">全部</a></li>
+		  <li><a href="#profile" data-toggle="tab">我的微博</a></li>
+		  <li><a href="#message" data-toggle="tab">个人资料</a></li>
+		</ul>
 
-	  	 		</div>
-	  	 </div>
 
-	  	  <div class="weibo">
-	  	 		<div class="avatar">
-	  	 			<a href="javascript:void(0)">
-	  	 				<img src="/img/test.jpeg"	/>
-	  	 			</a>
-	  	 		</div>
-	  	 		<div class="content">
+		<div id="myTabContent" class="tab-content">
+		        <div class="tab-pane fade in active" id="home">
+			         <div class="weibo">
+				  	 		<div class="avatar">
+				  	 			<a href="javascript:void(0)">
+				  	 				<img src="/img/test.jpeg"	/>
+				  	 			</a>
+				  	 		</div>
+				  	 		<div class="content">
 
-	  	 		</div>
-	  	 </div>
+				  	 		</div>
+				  	 </div>
 
-	  	  <div class="weibo">
-	  	 		<div class="avatar">
-	  	 			<a href="javascript:void(0)">
-	  	 				<img src="/img/test.jpeg"	/>
-	  	 			</a>
-	  	 		</div>
-	  	 		<div class="content">
+				  <div class="weibo">
+			  	 		<div class="avatar">
+			  	 			<a href="javascript:void(0)">
+			  	 				<img src="/img/test.jpeg"	/>
+			  	 			</a>
+			  	 		</div>
+			  	 		<div class="content">
 
-	  	 		</div>
-	  	 </div>
+			  	 		</div>
+			  	  </div>
 
-	  	  <div class="weibo" style="">
-	  	 		<div class="avatar">
-	  	 			<a href="javascript:void(0)">
-	  	 				<img src="/img/test.jpeg"	/>
-	  	 			</a>
-	  	 		</div>
-	  	 		<div class="content">
+			  	  <div class="weibo">
+			  	 		<div class="avatar">
+			  	 			<a href="javascript:void(0)">
+			  	 				<img src="/img/test.jpeg"	/>
+			  	 			</a>
+			  	 		</div>
+			  	 		<div class="content">
 
-	  	 		</div>
-	  	 </div>
+			  	 		</div>
+			  	  </div>
+
+			  	  <div class="weibo">
+			  	 		<div class="avatar">
+			  	 			<a href="javascript:void(0)">
+			  	 				<img src="/img/test.jpeg"	/>
+			  	 			</a>
+			  	 		</div>
+			  	 		<div class="content" style="height:500px;">
+
+			  	 		</div>
+			  	  </div>
+
+			  	  <div class="weibo">
+			  	 		<div class="avatar">
+			  	 			<a href="javascript:void(0)">
+			  	 				<img src="/img/test.jpeg"	/>
+			  	 			</a>
+			  	 		</div>
+			  	 		<div class="content">
+
+			  	 		</div>
+			  	  </div>
+
+			  	  <div class="weibo">
+			  	 		<div class="avatar">
+			  	 			<a href="javascript:void(0)">
+			  	 				<img src="/img/test.jpeg"	/>
+			  	 			</a>
+			  	 		</div>
+			  	 		<div class="content">
+
+			  	 		</div>
+			  	  </div>
+
+			  	  <div class="weibo" style="">
+			  	 		<div class="avatar">
+			  	 			<a href="javascript:void(0)">
+			  	 				<img src="/img/test.jpeg"	/>
+			  	 			</a>
+			  	 		</div>
+			  	 		<div class="content">
+
+			  	 		</div>
+			  	  </div>
+
+		        </div>
+		        <div class="tab-pane fade" id="profile">
+		          <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+		        </div>
+		        <div class="tab-pane fade" id="message">
+		          
+		        </div>
+		 </div>
+ 	 
 	  </div> 
+</div>
+
 <% include layoutBottom.ejs %>

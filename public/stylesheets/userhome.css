@@ -1,0 +1,68 @@
+
+.f-btn {
+	cursor:pointer;
+}
+
+.f-btn :hover {
+	color:#ccc;
+}
+
+.textbox-header::after{
+	display: block;
+	content: "";
+	float: left;
+}
+
+.expression,.pictures {
+	top:40px;
+}
+
+.expression .arrow{
+	left:19px !important;
+}
+
+.pictures .arrow {
+	left:70px !important;
+}
+
+.tipbox {
+	position: absolute;
+	left: 0;
+	z-index: 1010;
+	padding: 1px;
+	text-align: left;
+	white-space: normal;
+	background-color: #ffffff;
+	border: 1px solid #cccccc;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 6px;
+	-webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	background-clip: padding-box;
+}
+
+.tipbox .arrow {
+	top: -11px;
+	left: 50%;
+	margin-left: -11px;
+	border-bottom-color: #999;
+	border-bottom-color: rgba(0,0,0,0.25);
+	border-top-width: 0;
+	
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+
+}
+
+.tipbox .arrow::after {
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+}

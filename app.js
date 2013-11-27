@@ -58,6 +58,8 @@ app.post('/reg',routes.postReg);
 app.post('/login',routes.login);
 app.get('/user/:name',routes.user);
 app.get('/logout',routes.logout);
+app.post('/post',routes.postWeibo);
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

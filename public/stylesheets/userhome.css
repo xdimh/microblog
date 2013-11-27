@@ -1,3 +1,6 @@
+a {
+	outline: none !important;
+}
 
 .f-btn {
 	cursor:pointer;
@@ -93,4 +96,19 @@
 
 .emo li:hover {
 	border: 1px solid #428bca;
+}
+
+.post-btn {
+	margin-top:5px;
+	margin-right:5px;
+	outline:none !important;
+	min-width:80px;
+}
+
+.postarea {
+	width:610px;
+	resize:none;
+	font-size: 14px; 
+	font-family: Tahoma, 宋体; 
+	word-wrap: break-word;
 }

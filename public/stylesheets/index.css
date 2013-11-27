@@ -9,6 +9,9 @@ body {
 	position: relative;
 	width: 610px;
 	color:rgb(68, 68, 68);
+
+	font-size: 14px;
+	font-family: 微软雅黑;
 }
 
 .weibo .avatar {
@@ -34,6 +37,7 @@ body {
 
 .weibo .content {
 	width:510px;
+	padding: 20px 10px 20px 20px;
 	/*border:1px solid #ccc;*/
 	border-radius: 5px;
 	height: 100px;

@@ -1,200 +1,382 @@
+
 <% include layoutTop.ejs %>
 
-<div class="row" style="position:relative;">  
-	  <div class="col-md-8">  
-	  	 <div class="textbox-header" style="overflow:hidden;zoom:1;">
-	  	 	<h4 style="float:left;font-size: 20px;">随便说说</h4>
-	  	 	<h4 style="float:right;color:#999;font-size: 12px;">还可以输入<span style="font-family:Georgia;font-size:22px;">160</span>个字</h4>
-	  	 </div>
-	     <textarea class="form-control" rows="4" style="width:610px;resize:none;"></textarea>
-	     <div class="func_area" style="position:relative;">
-		     <ul class="nav nav-pills">
-		     	<li class="f-btn"><h4><span class="label label-primary" data-toggle="popover">表情</span><h4></li>
-		     	<li class="f-btn"><h4><span class="label label-warning">图片</span><h4></li>
-		     	<li style="float:right"><button type="button" class="btn btn-success" style="margin-top:5px;margin-right:5px;outline:none;width:80px;">发布</button></li>
-		     	<li class="dropdown left" style="float:right">
-		           	  <a id="drop4" role="button" data-toggle="dropdown" href="#" style="outline:none;">公开<b class="caret"></b></a>
-			          <ul id="menu1" class="dropdown-menu pull-right" role="menu">
-			            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)">仅自己可见</a></li>
-			          </ul>
-        		</li>
-		     </ul>
+<div class="row" style="position:relative;">
+	<div class="col-md-8">
+		<div class="textbox-header" style="overflow:hidden;zoom:1;">
+			<h4 style="float:left;font-size: 20px;">随便说说</h4>
+			<h4 style="float:right;color:#999;font-size: 12px;">
+				<span id="tiptext">还可以输入</span>
+				<span id="rest_num" style="font-family:Georgia;font-size:22px;">160</span>
+				个字
+			</h4>
+		</div>
+		<textarea id="post-area" class="form-control postarea" rows="4"></textarea>
+		<div class="func_area" style="position:relative;">
+			<ul class="nav nav-pills">
+				<li class="f-btn">
+					<h4>
+						<span id="exp_pic" class="label label-primary" data-toggle="expression">表情</span>
+					</h4>
+				</li>
+				<li class="f-btn">
+					<h4>
+						<span id="post_pic" class="label label-warning" data-toggle="pictures">图片</span>
+					</h4>
+				</li>
+				<li style="float:right">
+					<button id="post_weibo" type="button" data-loading-text="正在发布..." class="btn btn-success post-btn">发布</button>
+				</li>
+				<li class="dropdown left" style="float:right">
+					<a id="permission-display" role="button" data-toggle="dropdown" href="#" style="outline:none;">
+						公开 <b class="caret"></b>
+					</a>
+					<ul id="permission-menu" class="dropdown-menu pull-right" role="menu">
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="javascript:void(0)">仅自己可见</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
 
-		     <div class="tipbox bottom expression" style="max-width:none;width:417px;">
-		        <div class="arrow"></div>
-		       	  <ul class="nav nav-pills">
-					  <li class="active"><a href="#bzmh" data-toggle="tab">暴走漫画</a></li>
-					  <li><a href="#xxh" data-toggle="tab">悠嘻猴</a></li>
-				  </ul>
+			<div class="tipbox bottom expression" style="width:417px;display:none;">
+				<div class="arrow"></div>
+				<ul class="nav nav-pills">
+					<li class="active">
+						<a href="#bzmh" data-toggle="tab">暴走漫画</a>
+					</li>
+					<li>
+						<a href="#xxh" data-toggle="tab">悠嘻猴</a>
+					</li>
+				</ul>
 
+				<div id="myTabContent" class="tab-content" style="padding:9px 14px;">
+					<div class="tab-pane fade in active" id="bzmh">
+						<div style="padding-bottom:5px;">
+							<ul class="emo">
+								<li>
+									<img src="/img/bzmh/bmanshuang_thumb.gif" title="bzmh0" alt="bzmh0"></li>
+								<li>
+									<img src="/img/bzmh/bmaoye_thumb.gif" title="bzmh1" alt="bzmh1"></li>
+								<li>
+									<img src="/img/bzmh/bmbaonu_thumb.gif" title="bzmh2" alt="bzmh2"></li>
+								<li>
+									<img src="/img/bzmh/bmbeicui_thumb.gif" title="bzmh3" alt="bzmh3"></li>
+								<li>
+									<img src="/img/bzmh/bmbianshen_thumb.gif" title="bzmh4" alt="bzmh4"></li>
+								<li>
+									<img src="/img/bzmh/bmbinfen_thumb.gif" title="bzmh5" alt="bzmh5"></li>
+								<li>
+									<img src="/img/bzmh/bmcaise_thumb.gif" title="bzmh6" alt="bzmh6"></li>
+								<li>
+									<img src="/img/bzmh/bmchan_thumb.gif" title="bzmh7" alt="bzmh7"></li>
+								<li>
+									<img src="/img/bzmh/bmchijing_thumb.gif" title="bzmh8" alt="bzmh8"></li>
+								<li>
+									<img src="/img/bzmh/bmdajiao_thumb.gif" title="bzmh9" alt="bzmh9"></li>
+								<li>
+									<img src="/img/bzmh/bmdaku_thumb.gif" title="bzmh10" alt="bzmh10"></li>
+								<li>
+									<img src="/img/bzmh/bmdangao_thumb.gif" title="bzmh11" alt="bzmh11"></li>
+								<li>
+									<img src="/img/bzmh/bmdaxiao_thumb.gif" title="bzmh12" alt="bzmh12"></li>
+								<li>
+									<img src="/img/bzmh/bmdese_thumb.gif" title="bzmh13" alt="bzmh13"></li>
+								<li>
+									<img src="/img/bzmh/bmdeyi_thumb.gif" title="bzmh14" alt="bzmh14"></li>
+								<li>
+									<img src="/img/bzmh/bmding_thumb.gif" title="bzmh15" alt="bzmh15"></li>
+								<li>
+									<img src="/img/bzmh/bmduobu_thumb.gif" title="bzmh16" alt="bzmh16"></li>
+								<li>
+									<img src="/img/bzmh/bmfandui_thumb.gif" title="bzmh17" alt="bzmh17"></li>
+								<li>
+									<img src="/img/bzmh/bmfenmen_thumb.gif" title="bzmh18" alt="bzmh18"></li>
+								<li>
+									<img src="/img/bzmh/bmgandong_thumb.gif" title="bzmh19" alt="bzmh19"></li>
+								<li>
+									<img src="/img/bzmh/bmganxiao_thumb.gif" title="bzmh20" alt="bzmh20"></li>
+								<li>
+									<img src="/img/bzmh/bmgaoguai_thumb.gif" title="bzmh21" alt="bzmh21"></li>
+								<li>
+									<img src="/img/bzmh/bmgaoxing_thumb.gif" title="bzmh22" alt="bzmh22"></li>
+								<li>
+									<img src="/img/bzmh/bmgudu_thumb.gif" title="bzmh23" alt="bzmh23"></li>
+								<li>
+									<img src="/img/bzmh/bmguilian_thumb.gif" title="bzmh24" alt="bzmh24"></li>
+								<li>
+									<img src="/img/bzmh/bmhaipa_thumb.gif" title="bzmh25" alt="bzmh25"></li>
+								<li>
+									<img src="/img/bzmh/bmhaoba_thumb.gif" title="bzmh26" alt="bzmh26"></li>
+								<li>
+									<img src="/img/bzmh/bmhoulianpi_thumb.gif" title="bzmh27" alt="bzmh27"></li>
 
-					<div id="myTabContent" class="tab-content" style="padding:9px 14px;">
-				        <div class="tab-pane fade in active" id="bzmh">
-				       		 <div>
-				       		 	<ul class="emo">
-				       		 		<li><img src="/img/bmzhuakuang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhuakuang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhuakuang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhuakuang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhuakuang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/bmzhongqiang_thumb.gif" title="测试" alt="测试"></li>
-				       		 	</ul>
-				       		 </div>
-				        </div>
-				        <div class="tab-pane fade" id="xxh">
-				        	<div>
-				       		 	<ul class="emo">
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 		<li><img src="/img/xrdz_thumb.gif" title="测试" alt="测试"></li>
-				       		 	
-				       		 	</ul>
-				       		 </div>
-				        </div>
-			        </div>
-	     	 </div>
+								<li>
+									<img src="/img/bzmh/bmhuachi_thumb.gif" title="bzmh28" alt="bzmh28"></li>
+								<li>
+									<img src="/img/bzmh/bmhuaixiao_thumb.gif" title="bzmh29" alt="bzmh29"></li>
+								<li>
+									<img src="/img/bzmh/bmhuixinxiao_thumb.gif" title="bzmh30" alt="bzmh30"></li
+>
+								<li>
+									<img src="/img/bzmh/bmjiaolv_thumb.gif" title="bzmh31" alt="bzmh31"></li>
+								<li>
+									<img src="/img/bzmh/bmjingxia_thumb.gif" title="bzmh32" alt="bzmh32"></li>
+								<li>
+									<img src="/img/bzmh/bmjingya_thumb.gif" title="bzmh33" alt="bzmh33"></li>
+								<li>
+									<img src="/img/bzmh/bmjinzhang_thumb.gif" title="bzmh34" alt="bzmh34"></li>
+								<li>
+									<img src="/img/bzmh/bmkeai_thumb.gif" title="bzmh35" alt="bzmh35"></li>
+								<li>
+									<img src="/img/bzmh/bmkoushao_thumb.gif" title="bzmh36" alt="bzmh36"></li>
+								<li>
+									<img src="/img/bzmh/bmkubi_thumb.gif" title="bzmh37" alt="bzmh37"></li>
+								<li>
+									<img src="/img/bzmh/bmkuqi_thumb.gif" title="bzmh38" alt="bzmh38"></li>
+								<li>
+									<img src="/img/bzmh/bmkusu_thumb.gif" title="bzmh39" alt="bzmh39"></li>
+								<li>
+									<img src="/img/bzmh/bmlaladui_thumb.gif" title="bzmh40" alt="bzmh40"></li>
+								<li>
+									<img src="/img/bzmh/bmliezui_thumb.gif" title="bzmh41" alt="bzmh41"></li>
+								<li>
+									<img src="/img/bzmh/bmliguo_thumb.gif" title="bzmh42" alt="bzmh42"></li>
+								<li>
+									<img src="/img/bzmh/bmliubiti_thumb.gif" title="bzmh43" alt="bzmh43"></li>
+								<li>
+									<img src="/img/bzmh/bmliukoushui_thumb.gif" title="bzmh44" alt="bzmh44"></li
+>
+								<li>
+									<img src="/img/bzmh/bmliulei_thumb.gif" title="bzmh45" alt="bzmh45"></li>
+								<li>
+									<img src="/img/bzmh/bmluanmeng_thumb.gif" title="bzmh46" alt="bzmh46"></li>
+								<li>
+									<img src="/img/bzmh/bmluanru_thumb.gif" title="bzmh47" alt="bzmh47"></li>
+								<li>
+									<img src="/img/bzmh/bmmanglu_thumb.gif" title="bzmh48" alt="bzmh48"></li>
+								<li>
+									<img src="/img/bzmh/bmneihan_thumb.gif" title="bzmh49" alt="bzmh49"></li>
+								<li>
+									<img src="/img/bzmh/bmqingxing_thumb.gif" title="bzmh50" alt="bzmh50"></li>
+								<li>
+									<img src="/img/bzmh/bmqinwen_thumb.gif" title="bzmh51" alt="bzmh51"></li>
+								<li>
+									<img src="/img/bzmh/bmshengqi_thumb.gif" title="bzmh52" alt="bzmh52"></li>
+								<li>
+									<img src="/img/bzmh/bmsikao_org.gif" title="bzmh53" alt="bzmh53"></li>
+								<li>
+									<img src="/img/bzmh/bmsikao_thumb.gif" title="bzmh54" alt="bzmh54"></li>
+								<li>
+									<img src="/img/bzmh/bmtaitui_thumb.gif" title="bzmh55" alt="bzmh55"></li>
+								<li>
+									<img src="/img/bzmh/bmtaolun_thumb.gif" title="bzmh56" alt="bzmh56"></li>
+								<li>
+									<img src="/img/bzmh/bmtiaopi_thumb.gif" title="bzmh57" alt="bzmh57"></li>
+								<li>
+									<img src="/img/bzmh/bmtiaosheng_thumb.gif" title="bzmh58" alt="bzmh58"></li>
 
-	     	 <div class="tipbox bottom pictures" style="display:none;">
-		        <div class="arrow"></div>
-		        <h3 class="popover-title">图片</h3>
-		        <div class="popover-content">
-		          <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-		        </div>
-	     	 </div>
-	     </div>
+								<li>
+									<img src="/img/bzmh/bmtousu_thumb.gif" title="bzmh59" alt="bzmh59"></li>
+								<li>
+									<img src="/img/bzmh/bmtucao_thumb.gif" title="bzmh60" alt="bzmh60"></li>
+								<li>
+									<img src="/img/bzmh/bmtushetou_thumb.gif" title="bzmh61" alt="bzmh61"></li>
+								<li>
+									<img src="/img/bzmh/bmwabikong_thumb.gif" title="bzmh62" alt="bzmh62"></li>
+								<li>
+									<img src="/img/bzmh/bmxielei_thumb.gif" title="bzmh63" alt="bzmh63"></li>
+								<li>
+									<img src="/img/bzmh/bmxingfen_thumb.gif" title="bzmh64" alt="bzmh64"></li>
+								<li>
+									<img src="/img/bzmh/bmxingwu_thumb.gif" title="bzmh65" alt="bzmh65"></li>
+								<li>
+									<img src="/img/bzmh/bmxiyue_thumb.gif" title="bzmh66" alt="bzmh66"></li>
+								<li>
+									<img src="/img/bzmh/bmzan_thumb.gif" title="bzmh67" alt="bzmh67"></li>
+								<li>
+									<img src="/img/bzmh/bmzhenjing_thumb.gif" title="bzmh68" alt="bzmh68"></li>
+								<li>
+									<img src="/img/bzmh/bmzhongqiang_thumb.gif" title="bzmh69" alt="bzmh69"></li
+>
+								<li>
+									<img src="/img/bzmh/bmzhuakuang_thumb.gif" title="bzmh70" alt="bzmh70"></li>
 
-	     <div style="margin-top:50px;margin-bottom:10px;"></div>
+								<li>
+									<img src="/img/bzmh/bmzuocao_thumb.gif" title="bzmh71" alt="bzmh71"></li>
+							</ul>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="xxh">
+						<div style="padding-bottom:5px;">
+							<ul class="emo">
+								<li>
+									<img src="/img/yxh/bco_thumb.gif" title="yxh0" alt="yxh0"></li>
+								<li>
+									<img src="/img/yxh/bdw_thumb.gif" title="yxh1" alt="yxh1"></li>
+								<li>
+									<img src="/img/yxh/bf_thumb.gif" title="yxh2" alt="yxh2"></li>
+								<li>
+									<img src="/img/yxh/bgws_thumb.gif" title="yxh3" alt="yxh3"></li>
+								<li>
+									<img src="/img/yxh/bs3_thumb.gif" title="yxh4" alt="yxh4"></li>
+								<li>
+									<img src="/img/yxh/bt_thumb.gif" title="yxh5" alt="yxh5"></li>
+								<li>
+									<img src="/img/yxh/bz2_thumb.gif" title="yxh6" alt="yxh6"></li>
+								<li>
+									<img src="/img/yxh/cdyn_thumb.gif" title="yxh7" alt="yxh7"></li>
+								<li>
+									<img src="/img/yxh/ceg_thumb.gif" title="yxh8" alt="yxh8"></li>
+								<li>
+									<img src="/img/yxh/cf_thumb.gif" title="yxh9" alt="yxh9"></li>
+								<li>
+									<img src="/img/yxh/cn_thumb.gif" title="yxh10" alt="yxh10"></li>
+								<li>
+									<img src="/img/yxh/dy_thumb.gif" title="yxh11" alt="yxh11"></li>
+								<li>
+									<img src="/img/yxh/fc_thumb.gif" title="yxh12" alt="yxh12"></li>
+								<li>
+									<img src="/img/yxh/fd_thumb.gif" title="yxh13" alt="yxh13"></li>
+								<li>
+									<img src="/img/yxh/gg_thumb.gif" title="yxh14" alt="yxh14"></li>
+								<li>
+									<img src="/img/yxh/gx3_thumb.gif" title="yxh15" alt="yxh15"></li>
+								<li>
+									<img src="/img/yxh/hxgw_thumb.gif" title="yxh16" alt="yxh16"></li>
+								<li>
+									<img src="/img/yxh/jgwb_thumb.gif" title="yxh17" alt="yxh17"></li>
+								<li>
+									<img src="/img/yxh/kb_thumb.gif" title="yxh18" alt="yxh18"></li>
+								<li>
+									<img src="/img/yxh/kiss_thumb.gif" title="yxh19" alt="yxh19"></li>
+								<li>
+									<img src="/img/yxh/lb_thumb.gif" title="yxh20" alt="yxh20"></li>
+								<li>
+									<img src="/img/yxh/lg_thumb.gif" title="yxh21" alt="yxh21"></li>
+								<li>
+									<img src="/img/yxh/mb2_thumb.gif" title="yxh22" alt="yxh22"></li>
+								<li>
+									<img src="/img/yxh/nh_thumb.gif" title="yxh23" alt="yxh23"></li>
+								<li>
+									<img src="/img/yxh/pp_thumb.gif" title="yxh24" alt="yxh24"></li>
+								<li>
+									<img src="/img/yxh/pz_thumb.gif" title="yxh25" alt="yxh25"></li>
+								<li>
+									<img src="/img/yxh/q_thumb.gif" title="yxh26" alt="yxh26"></li>
+								<li>
+									<img src="/img/yxh/tq_thumb.gif" title="yxh27" alt="yxh27"></li>
+								<li>
+									<img src="/img/yxh/whh_thumb.gif" title="yxh28" alt="yxh28"></li>
+								<li>
+									<img src="/img/yxh/xrdz_thumb.gif" title="yxh29" alt="yxh29"></li>
 
-	     <ul class="nav nav-tabs">
-		  <li class="active"><a href="#home" data-toggle="tab">全部</a></li>
-		  <li><a href="#profile" data-toggle="tab">我的微博</a></li>
-		  <li><a href="#message" data-toggle="tab">个人资料</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="tipbox bottom pictures" style="display:none;">
+				<div class="arrow"></div>
+				<h3 class="popover-title">图片</h3>
+				<div class="popover-content">
+					<p>
+						Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div style="margin-top:50px;margin-bottom:10px;"></div>
+
+		<ul class="nav nav-tabs">
+			<li class="active">
+				<a href="#all" data-toggle="tab">全部</a>
+			</li>
+			<li>
+				<a href="#myweibo" data-toggle="tab">我的微博</a>
+			</li>
+			<li>
+				<a href="#profile" data-toggle="tab">个人资料</a>
+			</li>
 		</ul>
 
-
 		<div id="myTabContent" class="tab-content">
-		        <div class="tab-pane fade in active" id="home">
-			         <div class="weibo">
-				  	 		<div class="avatar">
-				  	 			<a href="javascript:void(0)">
-				  	 				<img src="/img/test.jpeg"	/>
-				  	 			</a>
-				  	 		</div>
-				  	 		<div class="content">
+			<div class="tab-pane fade in active" id="all">
+				<div class="weibo">
+					<div class="weibo">
+						<a href="javascript:void(0)">
+							<img src="/img/test.jpeg"/>
+						</a>
+					</div>
+					<div class="content">123324334343434343434</div>
+				</div>
 
-				  	 		</div>
-				  	 </div>
+				<div class="weibo">
+					<div class="avatar">
+						<a href="javascript:void(0)">
+							<img src="/img/test.jpeg"	/>
+						</a>
+					</div>
+					<div class="content"></div>
+				</div>
 
-				  <div class="weibo">
-			  	 		<div class="avatar">
-			  	 			<a href="javascript:void(0)">
-			  	 				<img src="/img/test.jpeg"	/>
-			  	 			</a>
-			  	 		</div>
-			  	 		<div class="content">
+				<div class="weibo">
+					<div class="avatar">
+						<a href="javascript:void(0)">
+							<img src="/img/test.jpeg"	/>
+						</a>
+					</div>
+					<div class="content"></div>
+				</div>
 
-			  	 		</div>
-			  	  </div>
+				<div class="weibo">
+					<div class="avatar">
+						<a href="javascript:void(0)">
+							<img src="/img/test.jpeg"	/>
+						</a>
+					</div>
+					<div class="content" style="height:500px;"></div>
+				</div>
 
-			  	  <div class="weibo">
-			  	 		<div class="avatar">
-			  	 			<a href="javascript:void(0)">
-			  	 				<img src="/img/test.jpeg"	/>
-			  	 			</a>
-			  	 		</div>
-			  	 		<div class="content">
+				<div class="weibo">
+					<div class="avatar">
+						<a href="javascript:void(0)">
+							<img src="/img/test.jpeg"	/>
+						</a>
+					</div>
+					<div class="content"></div>
+				</div>
 
-			  	 		</div>
-			  	  </div>
+				<div class="weibo">
+					<div class="avatar">
+						<a href="javascript:void(0)">
+							<img src="/img/test.jpeg"	/>
+						</a>
+					</div>
+					<div class="content"></div>
+				</div>
 
-			  	  <div class="weibo">
-			  	 		<div class="avatar">
-			  	 			<a href="javascript:void(0)">
-			  	 				<img src="/img/test.jpeg"	/>
-			  	 			</a>
-			  	 		</div>
-			  	 		<div class="content" style="height:500px;">
+				<div class="weibo" style="">
+					<div class="avatar">
+						<a href="javascript:void(0)">
+							<img src="/img/test.jpeg"	/>
+						</a>
+					</div>
+					<div class="content"></div>
+				</div>
 
-			  	 		</div>
-			  	  </div>
+			</div>
+			<div class="tab-pane fade" id="myweibo">
+				<p>
+					Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.
+				</p>
+			</div>
+			<div class="tab-pane fade" id="profile"></div>
+		</div>
 
-			  	  <div class="weibo">
-			  	 		<div class="avatar">
-			  	 			<a href="javascript:void(0)">
-			  	 				<img src="/img/test.jpeg"	/>
-			  	 			</a>
-			  	 		</div>
-			  	 		<div class="content">
-
-			  	 		</div>
-			  	  </div>
-
-			  	  <div class="weibo">
-			  	 		<div class="avatar">
-			  	 			<a href="javascript:void(0)">
-			  	 				<img src="/img/test.jpeg"	/>
-			  	 			</a>
-			  	 		</div>
-			  	 		<div class="content">
-
-			  	 		</div>
-			  	  </div>
-
-			  	  <div class="weibo" style="">
-			  	 		<div class="avatar">
-			  	 			<a href="javascript:void(0)">
-			  	 				<img src="/img/test.jpeg"	/>
-			  	 			</a>
-			  	 		</div>
-			  	 		<div class="content">
-
-			  	 		</div>
-			  	  </div>
-
-		        </div>
-		        <div class="tab-pane fade" id="profile">
-		          <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
-		        </div>
-		        <div class="tab-pane fade" id="message">
-		          
-		        </div>
-		 </div>
- 	 
-	  </div> 
+	</div>
 </div>
 
 <% include layoutBottom.ejs %>

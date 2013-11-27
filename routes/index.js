@@ -5,6 +5,9 @@
 
  var crypto = require('crypto');
  var User = require('../models/User');
+ var Post = require('../models/Post');
+
+
 
 exports.index = function(req, res){
   res.render('index', {
@@ -101,3 +104,22 @@ exports.logout = function(req,res) {
 	req.session.user = null;
 	res.redirect('/');
 }
+
+exports.postWeibo = function(req,res) {
+	var content = req.body.content,
+		author = req.session.user.name,
+		time = new Date().getTime();
+
+	if(!content || !content.trim()) {
+		res.send({'error':'发送内容不能为空'});
+	}
+
+	var newPost = new Post({author:author,post_content:content,post_time:time});
+
+	newPost.save(function(err,post){
+		if(err) {
+			res.send({'error':err});
+		}
+		res.send(post);
+	});
+};

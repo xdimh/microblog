@@ -3,7 +3,7 @@
 
 <div class="row" style="position:relative;">
 	<div class="col-md-8">
-		<div class="textbox-header" style="overflow:hidden;zoom:1;">
+		<div class="textbox-header" style="overflow:hidden;zoom:1;width:610px;">
 			<h4 style="float:left;font-size: 20px;">随便说说</h4>
 			<h4 style="float:right;color:#999;font-size: 12px;">
 				<span id="tiptext">还可以输入</span>
@@ -12,7 +12,7 @@
 			</h4>
 		</div>
 		<textarea id="post-area" class="form-control postarea" rows="4"></textarea>
-		<div class="func_area" style="position:relative;">
+		<div class="func_area" style="position:relative;width:610px;">
 			<ul class="nav nav-pills">
 				<li class="f-btn">
 					<h4>
@@ -279,14 +279,45 @@
 
 			<div class="tipbox bottom pictures" style="display:none;">
 				<div class="arrow"></div>
-				<h3 class="popover-title">图片</h3>
-				<div class="popover-content">
-					<p>
-						Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
-					</p>
+				<div class="popcontent">
+					<ul class="p_upload">
+						<li><button id="simple_upload" type="button" class="btn btn-default" style="outline:none;">图片上传</button></li>
+						<li><button id="pt_upload" type="button" class="btn btn-default" style="outline:none;">拼图上传</button></li>
+					</ul>
 				</div>
 			</div>
 		</div>
+
+		<!-- simple upload Modal -->
+		<div class="modal fade" id="simple_upload_dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="myModalLabel">上传图片</h4>
+		      </div>
+		      <div class="modal-body">
+		        <form id="my-awesome-dropzone" action="/target" class="dropzone"></form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">开始上传</button>
+		        <button type="button" class="btn btn-primary">取消</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+		<!--pt upload Modal -->
+		<div class="modal fade" id="pt_upload_dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	
+		  <div class="modal-dialog">
+		    <div id="pt_editor" class="" style="width:auto;height:auto">
+		    
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+
+		</div><!-- /.modal -->
+
 
 		<div style="margin-top:50px;margin-bottom:10px;"></div>
 
@@ -305,12 +336,43 @@
 		<div id="myTabContent" class="tab-content">
 			<div class="tab-pane fade in active" id="all">
 				<div class="weibo">
-					<div class="weibo">
+					<div class="avatar">
 						<a href="javascript:void(0)">
 							<img src="/img/test.jpeg"/>
 						</a>
 					</div>
-					<div class="content">123324334343434343434</div>
+					<div class="content">
+						<div class="wb_info">
+							<a class="u_name" href="javascript:void(0)">暴走漫画</a>
+						</div>
+						<div class="wb_text">
+							暴走漫画暴走了
+							<a class="fancybox" rel="group" href="/img/google.jpg"><img src="/img/google.jpg" style="max-width:480px" /></a>
+							<a class="fancybox" rel="group" href="/img/ace1.jpeg"><img src="/img/ace1.jpeg" style="max-width:480px"></a>
+							<a class="fancybox" rel="group" href="/img/ace2.jpg"><img src="/img/ace2.jpg" style="max-width:480px"></a>
+						</div>
+
+						<div class="wb_func">
+							<div class="wb_time">
+								<a href="javascript:void(0)">10分钟前</a>
+							</div>
+							<ul class="wb_op">
+									<li class="active">
+										<a href="#bzmh" data-toggle="tab">喜欢(22)</a>
+									</li>
+									<li class="active">
+										<a href="#bzmh" data-toggle="tab">转发(22)</a>
+									</li>
+									<li>
+										<a href="#xxh" data-toggle="tab">收藏(1)</a>
+									</li>
+									<li class="active">
+										<a href="#bzmh" data-toggle="tab">评论(40)</a>
+									</li>
+							</ul>
+						</div>
+
+					</div>
 				</div>
 
 				<div class="weibo">
@@ -361,7 +423,7 @@
 				<div class="weibo" style="">
 					<div class="avatar">
 						<a href="javascript:void(0)">
-							<img src="/img/test.jpeg"	/>
+							<img src="/img/test.jpeg"/>
 						</a>
 					</div>
 					<div class="content"></div>

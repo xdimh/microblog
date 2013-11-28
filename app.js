@@ -50,14 +50,15 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
+app.get('/',routes.checkLogin,routes.index);
 app.get('/users', user.list);
 app.all('/userinfo',userinfo.display);
 app.get('/reg',routes.reg);
 app.post('/reg',routes.postReg);
 app.post('/login',routes.login);
-app.get('/user/:name',routes.user);
-app.get('/logout',routes.logout);
+app.get('/user/:name',routes.checkNotLogin,routes.user);
+
+app.get('/logout',routes.checkNotLogin,routes.logout);
 app.post('/post',routes.postWeibo);
 
 http.createServer(app).listen(app.get('port'), function(){

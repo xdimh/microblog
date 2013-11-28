@@ -123,3 +123,19 @@ exports.postWeibo = function(req,res) {
 		res.send(post);
 	});
 };
+
+
+exports.checkLogin = function(req,res,next) {
+	if(req.session.user) {
+		return res.redirect('/user/' + req.session.user.name);
+	} 
+	next();
+}
+
+exports.checkNotLogin = function(req,res,next) {
+	if(!req.session.user) {
+		return res.redirect('/');
+	}
+
+	next();
+}

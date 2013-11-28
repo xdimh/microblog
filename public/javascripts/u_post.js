@@ -48,7 +48,7 @@
 			
 			$(".tipbox").not("." + clazzName).hide();
 			$("." + clazzName).toggle();
-
+			event.stopPropagation();
 		});
 
 		//post btn
@@ -134,7 +134,7 @@
 			$('#post-area').trigger('input');
 			_this.parents('div.tipbox').hide();
 			$('#post-area').setCurPos(curPos);
-
+			event.stopPropagation();
 		});
 
 
@@ -155,7 +155,7 @@
 			})
 			.done(function(data) {
 				console.log(data);
-
+				$("#post_weibo").button('reset');
 				var $all = $("#all"),
 
 					str = '<div class="weibo">' 
@@ -164,8 +164,9 @@
 					+ '<img src="/img/test.jpeg"/>'
 					+ '</a></div>'
 					+ '<div class="content">' 
-					+ 
-				$('<div>').addClass('weibo')
+					+ data[0].post_content 
+					+ '</div></div>';
+				$all.prepend(str);
 
 			})
 			.fail(function(error) {
@@ -173,8 +174,54 @@
 			});
 		});
 
+		$('a[rel^="group"]').click(function(event) {
+			/* Act on the event */
+			console.log("I'm clicked");
+		});
+
+		$('.fancybox').fancybox({
+			helpers	: {
+				title	: {
+					type: 'inside'
+				},
+				thumbs	: {
+					width	: 80,
+					height	: 80
+				}
+			}
+	    });
+
+		$(document).click(function(event) {
+			/* Act on the event */
+			var target = event.target,
+				tagName = target.nodeName;
+			if($(target).parents("div.tipbox").size() == 0) {
+				$(".tipbox").hide();
+			}
+		});
 
 	});
+	
+	$('#simple_upload').click(function(event) {
+		var _this = $(this);
+		$("#simple_upload_dialog").modal('show');
+		_this.parents('div.tipbox').hide();
+		event.stopPropagation();
+	});
 
+	
+
+	$('#pt_upload').click(function(event) {
+		/* Act on the event */
+		var _this = $(this);
+		$('#pt_upload_dialog').modal('show');
+		_this.parents('div.tipbox').hide();
+
+		xiuxiu.embedSWF("pt_editor", 2, 530, 470,"lite");
+	});
+
+	$("#simple_upload_dialog,#pt_upload_dialog").on('show.bs.modal',function(event){
+		$(".modal-dialog",this).css("padding-top",195);
+	});
 
 })(jQuery,window);

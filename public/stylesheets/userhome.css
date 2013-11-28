@@ -112,3 +112,72 @@ a {
 	font-family: Tahoma, 宋体; 
 	word-wrap: break-word;
 }
+
+.wb_info {
+	margin: 5px 10px 5px 15px;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.wb_info a {
+	color: #725E34;
+	text-decoration: none;
+}
+.wb_info a:hover {
+	color:#80642A !important;
+}
+
+.wb_text {
+	margin: 5px 10px 20px 15px;
+}
+
+.wb_func {
+	border-top: 1px dotted #ccc;
+
+}
+
+.wb_time {
+	
+	font-size: 12px;
+	margin: 5px 5px 5px 15px;
+	float:left;
+}
+
+.wb_time a ,.wb_op li a{
+	color:#90897a;
+}
+
+.wb_op {
+	list-style: none;
+	float: right;
+	margin: 5px 5px 5px 15px;
+	font-size: 12px;
+}
+
+.wb_op li {
+	float : left;
+	display: block;
+	margin-left:10px;
+}
+
+.popcontent {
+	padding: 30px 30px 30px 10px;
+	overflow: hidden;
+	zoom:1;
+}
+
+.p_upload {
+	list-style: none;
+	margin: 0px;
+	padding:0px;
+	overflow: hidden;
+	zoom:1;
+}
+
+
+
+.p_upload li{
+	float:left;
+	margin-left: 20px
+}
+

@@ -139,3 +139,8 @@ exports.checkNotLogin = function(req,res,next) {
 
 	next();
 }
+
+exports.uploadImages = function(req,res) {
+	console.log('files:' + req.files);
+	res.send(req.files);
+}

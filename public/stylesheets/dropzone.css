@@ -161,6 +161,10 @@
   padding: 23px;
 }
 .dropzone .dz-default.dz-message {
+
+  text-align: center;
+  vertical-align: middle;
+  
   opacity: 1;
   -ms-filter: none;
   filter: none;
@@ -169,7 +173,7 @@
   -o-transition: opacity 0.3s ease-in-out;
   -ms-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
-  background-image: url("../img/spritemap.png");
+  /*background-image: url("../img/spritemap.png");*/
   background-repeat: no-repeat;
   background-position: 0 0;
   position: absolute;
@@ -189,7 +193,9 @@
   }
 }
 .dropzone .dz-default.dz-message span {
-  display: none;
+  font-size:40px;
+  color: #ccc;
+  /*display: none;*/
 }
 .dropzone.dz-square .dz-default.dz-message {
   background-position: 0 -123px;

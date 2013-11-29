@@ -23,6 +23,7 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({
@@ -60,6 +61,7 @@ app.get('/user/:name',routes.checkNotLogin,routes.user);
 
 app.get('/logout',routes.checkNotLogin,routes.logout);
 app.post('/post',routes.postWeibo);
+app.post('/picupload',routes.uploadImages);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

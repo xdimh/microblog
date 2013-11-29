@@ -289,7 +289,7 @@
 		</div>
 
 		<!-- simple upload Modal -->
-		<div class="modal fade" id="simple_upload_dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal fade" id="simple_upload_dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
@@ -297,10 +297,10 @@
 		        <h4 class="modal-title" id="myModalLabel">上传图片</h4>
 		      </div>
 		      <div class="modal-body">
-		        <form id="my-awesome-dropzone" action="/target" class="dropzone"></form>
+		        <form id="simpleUploadDropzone" action="/picupload" class="dropzone" enctype="multipart/form-data"></form>
 		      </div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">开始上传</button>
+		        <button id="beginUpload" type="button" class="btn btn-default" >开始上传</button>
 		        <button type="button" class="btn btn-primary">取消</button>
 		      </div>
 		    </div><!-- /.modal-content -->
@@ -308,7 +308,7 @@
 		</div><!-- /.modal -->
 
 		<!--pt upload Modal -->
-		<div class="modal fade" id="pt_upload_dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal fade" id="pt_upload_dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
 	
 		  <div class="modal-dialog">
 		    <div id="pt_editor" class="" style="width:auto;height:auto">

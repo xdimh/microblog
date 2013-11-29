@@ -436,16 +436,16 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       addRemoveLinks: false,
       previewsContainer: null,
       dictDefaultMessage: "拖拽图片到这或者单击上传图片",
-      dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
+      dictFallbackMessage: "你的浏览器不支持拖拽上传",
       dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
-      dictFileTooBig: "File is too big ({{filesize}}MB). Max filesize: {{maxFilesize}}MB.",
-      dictInvalidFileType: "You can't upload files of this type.",
+      dictFileTooBig: "文件太大 ({{filesize}}MB). 不能超过: {{maxFilesize}}MB.",
+      dictInvalidFileType: "该类型的文件不能上传",
       dictResponseError: "服务器返回代码 {{statusCode}} .",
-      dictCancelUpload: "Cancel upload",
-      dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
-      dictRemoveFile: "Remove file",
+      dictCancelUpload: "取消上传",
+      dictCancelUploadConfirmation: "你确定要取消这次上传?",
+      dictRemoveFile: "取消",
       dictRemoveFileConfirmation: null,
-      dictMaxFilesExceeded: "You can only upload {{maxFiles}} files.",
+      dictMaxFilesExceeded: "你只能上传 {{maxFiles}} 个文件.",
       accept: function(file, done) {
         return done();
       },
@@ -549,6 +549,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           node = _ref1[_j];
           node.innerHTML = this.filesize(file.size);
+          // node.innerHTML = Math.round(file.size / 1024 / 10.24) / 100 + 'MB';
         }
         if (this.options.addRemoveLinks) {
           file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\">" + this.options.dictRemoveFile + "</a>");

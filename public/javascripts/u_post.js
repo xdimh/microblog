@@ -39,6 +39,29 @@
 	$(function(){
 
 
+		Dropzone.options.simpleUploadDropzone = {
+			maxFilesize: 2,
+			autoProcessQueue : false,
+			parallelUploads : 2,
+			uploadMultiple : true,
+			maxFiles : 2,
+      		addRemoveLinks: true,
+			init: function() {
+			    this.on("maxfilesexceeded", function(file){
+			        alert("No more files please!");
+			    });
+			    this.on("removedfile",function(file){
+			    	console.log("a file " + file + "is removed");
+			    });
+			    this.on("success",function(file,data){
+			    	console.log("file:" + file);
+			    	console.log("data:" + data);
+			    	console.log('已上传:' + this.getAcceptedFiles().length);
+			    	console.log("总共可以上传几个文件:" + Dropzone.options.simpleUploadDropzone['maxFiles']);
+			    });
+		  	}
+		};
+
 		$("#exp_pic,#post_pic").click(function(event) {
 			/* Act on the event */
 			var _this = $(this),
@@ -202,14 +225,24 @@
 
 	});
 	
+	//js related file upload
+	// Dropzone.autoDiscover = false;
+
 	$('#simple_upload').click(function(event) {
 		var _this = $(this);
+		// $('#simpleUploadDropzone').dropzone({
+		// 	maxFilesize: 2,
+		// 	thumbnailWidth: '20',
+		// 	thumbnailHeight : '20',
+		// 	autoProcessQueue : false
+		// });
+		var myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
+		myDropzone.removeAllFiles();
 		$("#simple_upload_dialog").modal('show');
 		_this.parents('div.tipbox').hide();
 		event.stopPropagation();
 	});
 
-	
 
 	$('#pt_upload').click(function(event) {
 		/* Act on the event */
@@ -222,6 +255,15 @@
 
 	$("#simple_upload_dialog,#pt_upload_dialog").on('show.bs.modal',function(event){
 		$(".modal-dialog",this).css("padding-top",195);
+	});
+
+	xiuxiu.onClose = function(id) {
+		$('#pt_upload_dialog').modal('hide');
+	};
+
+	$('#beginUpload').click(function(event) {
+		var myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
+		myDropzone.processQueue();
 	});
 
 })(jQuery,window);

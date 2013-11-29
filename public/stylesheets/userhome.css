@@ -2,6 +2,10 @@ a {
 	outline: none !important;
 }
 
+button {
+	outline: none !important;
+}
+
 .f-btn {
 	cursor:pointer;
 }

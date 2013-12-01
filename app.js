@@ -62,7 +62,7 @@ app.get('/user/:name',routes.checkNotLogin,routes.user);
 app.get('/logout',routes.checkNotLogin,routes.logout);
 app.post('/post',routes.postWeibo);
 app.post('/picupload',routes.uploadImages);
-
+app.post('/deleteImg',routes.deleteImg);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

@@ -1,5 +1,5 @@
 body {
-	background-color:#f3f2f3;
+	background-color:#fff;
 }
 
 .weibo {
@@ -49,7 +49,7 @@ body {
 
 .weibo .content:before {
 	content:"";
-	background-color: #f3f2f3 !important;
+	/*background-color: #f3f2f3 !important;*/
 	background: url(/img/feed-icons.png) no-repeat 0 -150px;
 	display: block;
 	position: absolute;

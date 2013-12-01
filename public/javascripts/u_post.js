@@ -37,27 +37,56 @@
 	});
 
 	$(function(){
-
-
+ 
+		var uploaded = {};
 		Dropzone.options.simpleUploadDropzone = {
 			maxFilesize: 2,
 			autoProcessQueue : false,
-			parallelUploads : 2,
-			uploadMultiple : true,
-			maxFiles : 2,
+			parallelUploads: 5,
+			maxFiles : 5,
       		addRemoveLinks: true,
+      		acceptedFiles: 'image/*',
 			init: function() {
+
 			    this.on("maxfilesexceeded", function(file){
 			        alert("No more files please!");
 			    });
 			    this.on("removedfile",function(file){
-			    	console.log("a file " + file + "is removed");
+			    		console.log("a file " + file.name + "is removed");
+
+			    		$.each(uploaded,function(value,num){
+			    			if(value.indexOf(file.name) > 0) {
+			    				uploaded[value]--;
+			    				if(uploaded[value] == 0) {
+			    					$.ajax({
+										url: '/deleteImg',
+										type: 'post',
+										dataType: 'json',
+										data: {
+											filename: file.name
+										}
+									}).done(function(data){
+
+									}).fail(function(err){
+
+									});
+			    				}
+			    				return false;
+			    			}
+			    		});
+
+			    	
 			    });
 			    this.on("success",function(file,data){
 			    	console.log("file:" + file);
-			    	console.log("data:" + data);
 			    	console.log('已上传:' + this.getAcceptedFiles().length);
 			    	console.log("总共可以上传几个文件:" + Dropzone.options.simpleUploadDropzone['maxFiles']);
+
+			    	if(!uploaded[data]) {
+			    		uploaded[data] = 1;
+			    	} else {
+			    		uploaded[data] = parseInt(uploaded[data],10) + 1;
+			    	}
 			    });
 		  	}
 		};
@@ -174,7 +203,7 @@
 				dataType: 'json',
 				data: {
 					content: content
-				},
+				}
 			})
 			.done(function(data) {
 				console.log(data);
@@ -236,8 +265,10 @@
 		// 	thumbnailHeight : '20',
 		// 	autoProcessQueue : false
 		// });
+		uploaded = {};
 		var myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
 		myDropzone.removeAllFiles();
+		
 		$("#simple_upload_dialog").modal('show');
 		_this.parents('div.tipbox').hide();
 		event.stopPropagation();

@@ -3,9 +3,11 @@
  * GET home page.
  */
 
- var crypto = require('crypto');
- var User = require('../models/User');
- var Post = require('../models/Post');
+ var crypto = require('crypto'),
+	 User = require('../models/User'),
+	 Post = require('../models/Post'),
+	 fs = require('fs'),
+	 path = require("path");
 
 
 
@@ -141,6 +143,62 @@ exports.checkNotLogin = function(req,res,next) {
 }
 
 exports.uploadImages = function(req,res) {
-	console.log('files:' + req.files);
-	res.send(req.files);
+
+
+	var fileName = req.files.file.originalFilename,
+		filePath = req.files.file.path,
+		username = req.session.user.name,
+		newPicDir = path.normalize(__dirname + path.sep + '../picsdir'),
+		newUserPicDir = newPicDir + path.sep + username,
+		newImgFilePath = newUserPicDir + path.sep + fileName;
+
+
+	console.log(newPicDir);
+	console.log(newUserPicDir);
+
+	if(!fs.existsSync(newPicDir)) {
+		fs.mkdirSync(newPicDir);
+	}
+
+	if(!fs.existsSync(newUserPicDir)) {
+		fs.mkdirSync(newUserPicDir);
+	}
+
+	fs.readFile(filePath, function(err,data){
+		if(err) {
+			throw err;
+		}
+
+		fs.writeFile(newImgFilePath,data,function(err){
+			if(err) {
+				throw err;
+			}
+			console.log("img saved");
+		});
+
+	});
+
+	console.log(fileName);
+
+	res.send(newImgFilePath);
+
+};
+
+
+exports.deleteImg = function(req,res) {
+	var fileName = req.body.filename,
+		username = req.session.user.name,
+		filePath = path.normalize(__dirname + path.sep + '..'+ path.sep + 'picsdir' + path.sep + username + path.sep + fileName);
+
+	console.log(filePath);
+	if(fs.existsSync(filePath)) {
+		fs.unlink(filePath, function (err) {
+			  if (err) throw err;
+			  console.log('successfully deleted ' + fileName + 'in user ' + username + ' space');
+		});
+	}
+
+	res.send('ok');
 }
+
+

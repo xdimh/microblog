@@ -301,7 +301,7 @@
 		      </div>
 		      <div class="modal-footer">
 		        <button id="beginUpload" type="button" class="btn btn-default" >开始上传</button>
-		        <button type="button" class="btn btn-primary">取消</button>
+		        <button id="confirmUpload" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
 		      </div>
 		    </div><!-- /.modal-content -->
 		  </div><!-- /.modal-dialog -->
@@ -436,6 +436,47 @@
 				</p>
 			</div>
 			<div class="tab-pane fade" id="profile"></div>
+		</div>
+
+	</div>
+</div>
+
+
+<div id="template" class="weibo" style="display:none;">
+	<div class="avatar">
+		<a href="javascript:void(0)">
+			<img src="/img/test.jpeg"/>
+		</a>
+	</div>
+	<div class="content">
+		<div class="wb_info">
+			<a class="u_name" href="javascript:void(0)">暴走漫画</a>
+		</div>
+		<div class="wb_content">
+			<div id="wb_text">暴走漫画暴走了</div>
+			<a class="fancybox" rel="group" href="/img/google.jpg"><img src="/img/google.jpg" style="max-width:480px" /></a>
+			<a class="fancybox" rel="group" href="/img/ace1.jpeg"><img src="/img/ace1.jpeg" style="max-width:480px"></a>
+			<a class="fancybox" rel="group" href="/img/ace2.jpg"><img src="/img/ace2.jpg" style="max-width:480px"></a>
+		</div>
+
+		<div class="wb_func">
+			<div class="wb_time">
+				<a href="javascript:void(0)">10分钟前</a>
+			</div>
+			<ul class="wb_op">
+					<li class="active">
+						<a href="#bzmh" data-toggle="tab">喜欢(22)</a>
+					</li>
+					<li class="active">
+						<a href="#bzmh" data-toggle="tab">转发(22)</a>
+					</li>
+					<li>
+						<a href="#xxh" data-toggle="tab">收藏(1)</a>
+					</li>
+					<li class="active">
+						<a href="#bzmh" data-toggle="tab">评论(40)</a>
+					</li>
+			</ul>
 		</div>
 
 	</div>

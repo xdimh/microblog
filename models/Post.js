@@ -4,6 +4,7 @@ function Post(post) {
 	this.author = post.author;
 	this.post_content = post.post_content;
 	this.post_time = new Date().getTime();
+	this.imgs = post.imgs;
 }
 
 module.exports = Post;
@@ -12,7 +13,8 @@ Post.prototype.save = function(callback) {
 	var post = {
 		author : this.author,
 		post_content : this.post_content,
-		post_time : this.post_time
+		post_time : this.post_time,
+		imgs : this.imgs
 	};
 
 	mongodb.open(function(err,db){

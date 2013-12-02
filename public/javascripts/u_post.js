@@ -41,7 +41,7 @@
 		var uploaded = {};
 		Dropzone.options.simpleUploadDropzone = {
 			maxFilesize: 2,
-			autoProcessQueue : false,
+			autoProcessQueue : true,
 			parallelUploads: 5,
 			maxFiles : 5,
       		addRemoveLinks: true,
@@ -58,6 +58,7 @@
 			    			if(value.indexOf(file.name) > 0) {
 			    				uploaded[value]--;
 			    				if(uploaded[value] == 0) {
+			    					delete uploaded[value];
 			    					$.ajax({
 										url: '/deleteImg',
 										type: 'post',
@@ -192,9 +193,12 @@
 
 		$("#post_weibo").click(function(event) {
 			var _this = $(this);
-				content = $('#post-area').val();
-
-
+				content = $('#post-area').val(),
+				imgs = [];
+				$('#post-area').val("");
+				$("#template1").find('.wb_content a').each(function(index){
+					imgs.push($(this).attr('href'));
+				});
 
 
 			$.ajax({
@@ -202,24 +206,23 @@
 				type: 'post',
 				dataType: 'json',
 				data: {
-					content: content
+					content: content,
+					imgs:imgs.join('-')
 				}
 			})
 			.done(function(data) {
 				console.log(data);
 				$("#post_weibo").button('reset');
 				var $all = $("#all"),
+				$newWb = $('#template1').clone().attr({
+					id : new Date().getTime()
+				});
 
-					str = '<div class="weibo">' 
-					+ '<div class="avatar">'
-					+ '<a href="javascript:void(0)">'
-					+ '<img src="/img/test.jpeg"/>'
-					+ '</a></div>'
-					+ '<div class="content">' 
-					+ data[0].post_content 
-					+ '</div></div>';
-				$all.prepend(str);
-
+				$('#template1').find('.wb_content a').remove();
+			
+				$('<p>').text(content).appendTo($newWb.find(".wb_text"));
+				$newWb.prependTo($all).find('.wb_content a').css('display','inline');
+				$newWb.slideDown();
 			})
 			.fail(function(error) {
 				console.log("error");
@@ -252,49 +255,72 @@
 			}
 		});
 
-	});
+		//js related file upload
+		// Dropzone.autoDiscover = false;
+
+		$('#simple_upload').click(function(event) {
+			var _this = $(this);
+			// $('#simpleUploadDropzone').dropzone({
+			// 	maxFilesize: 2,
+			// 	thumbnailWidth: '20',
+			// 	thumbnailHeight : '20',
+			// 	autoProcessQueue : false
+			// });
+			uploaded = {};
+			var myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
+			myDropzone.removeAllFiles();
+			
+			$("#simple_upload_dialog").modal('show');
+			_this.parents('div.tipbox').hide();
+			event.stopPropagation();
+		});
+
+
+		$('#pt_upload').click(function(event) {
+			/* Act on the event */
+			var _this = $(this);
+			$('#pt_upload_dialog').modal('show');
+			_this.parents('div.tipbox').hide();
+
+			xiuxiu.embedSWF("pt_editor", 2, 530, 470,"lite");
+		});
+
+		$("#simple_upload_dialog,#pt_upload_dialog").on('show.bs.modal',function(event){
+			$(".modal-dialog",this).css("padding-top",195);
+		});
+
+		xiuxiu.onClose = function(id) {
+			$('#pt_upload_dialog').modal('hide');
+		};
+
+		$('#beginUpload').click(function(event) {
+			var myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
+			myDropzone.processQueue();
+		});
+
+		$('#confirmUpload').click(function(event){
+			var _this = $(this),
+				$weibo = $('#template1'),
+				$imga = $("#template2"),
+				time = new Date().getTime();
+			$weibo.find('.wb_content a').remove();
+			$("#post-area").val($("#post-area").val() + '#随手拍#');
+			$.each(uploaded, function(key,value){
+				var newImga = $imga.clone();
+				newImga.attr({
+					href : key,
+					rel : time,
+					id : time
+				}).find('img').attr({
+					src : key
+				}).show();
+				$weibo.find('.wb_content').append(newImga);
+			});
+		});
+
+
+}); //jQuery
 	
-	//js related file upload
-	// Dropzone.autoDiscover = false;
-
-	$('#simple_upload').click(function(event) {
-		var _this = $(this);
-		// $('#simpleUploadDropzone').dropzone({
-		// 	maxFilesize: 2,
-		// 	thumbnailWidth: '20',
-		// 	thumbnailHeight : '20',
-		// 	autoProcessQueue : false
-		// });
-		uploaded = {};
-		var myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
-		myDropzone.removeAllFiles();
-		
-		$("#simple_upload_dialog").modal('show');
-		_this.parents('div.tipbox').hide();
-		event.stopPropagation();
-	});
-
-
-	$('#pt_upload').click(function(event) {
-		/* Act on the event */
-		var _this = $(this);
-		$('#pt_upload_dialog').modal('show');
-		_this.parents('div.tipbox').hide();
-
-		xiuxiu.embedSWF("pt_editor", 2, 530, 470,"lite");
-	});
-
-	$("#simple_upload_dialog,#pt_upload_dialog").on('show.bs.modal',function(event){
-		$(".modal-dialog",this).css("padding-top",195);
-	});
-
-	xiuxiu.onClose = function(id) {
-		$('#pt_upload_dialog').modal('hide');
-	};
-
-	$('#beginUpload').click(function(event) {
-		var myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
-		myDropzone.processQueue();
-	});
+	
 
 })(jQuery,window);

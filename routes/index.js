@@ -110,13 +110,15 @@ exports.logout = function(req,res) {
 exports.postWeibo = function(req,res) {
 	var content = req.body.content,
 		author = req.session.user.name,
+		imgs = req.body.imgs.split('-'),
 		time = new Date().getTime();
+		console.log(imgs);
 
 	if(!content || !content.trim()) {
 		res.send({'error':'发送内容不能为空'});
 	}
 
-	var newPost = new Post({author:author,post_content:content,post_time:time});
+	var newPost = new Post({author:author,post_content:content,post_time:time,imgs:imgs});
 
 	newPost.save(function(err,post){
 		if(err) {
@@ -180,7 +182,7 @@ exports.uploadImages = function(req,res) {
 
 	console.log(fileName);
 
-	res.send(newImgFilePath);
+	res.send('/' + username + '/' + fileName);
 
 };
 

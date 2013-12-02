@@ -37,19 +37,19 @@ Post.prototype.save = function(callback) {
 	});
 }
 
-Post.getByAuthor = function(autor,callback) {
+Post.getByAuthor = function(author,callback) {
 	mongodb.open(function(err,db){
 		if(err) {
 			callback(err);
 		}
 
-		db.collection(post,function(err,collection){
+		db.collection('post',function(err,collection){
 			if(err) {
 				mongodb.close();
 				callback(err);
 			}
 
-			collection.find({author:author,sort : [['post_time','desc']]}).toArray(function(err,posts){
+			collection.find({author:author},{sort : [['post_time','desc']]}).toArray(function(err,posts){
 				mongodb.close();
 				callback(err,posts);
 			});

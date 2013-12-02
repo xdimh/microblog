@@ -281,7 +281,7 @@
 			var _this = $(this);
 			$('#pt_upload_dialog').modal('show');
 			_this.parents('div.tipbox').hide();
-
+			xiuxiu.setLaunchVars("uploadBtnLabel", "发送到微博","lite");
 			xiuxiu.embedSWF("pt_editor", 2, 530, 470,"lite");
 		});
 
@@ -293,18 +293,59 @@
 			$('#pt_upload_dialog').modal('hide');
 		};
 
+		xiuxiu.onInit = function(id) {
+			if(id == "lite") {
+				xiuxiu.setUploadURL('http://localhost:3000/picupload',id);
+				xiuxiu.setUploadType(2,id);
+				xiuxiu.setUploadDataFieldName("file",id);
+			}
+		};
+
+		xiuxiu.onUploadResponse = function (data)
+		{
+			console.log("上传响应" + data);
+
+	    	if(!uploaded[data]) {
+	    		uploaded[data] = 1;
+	    	} else {
+	    		uploaded[data] = parseInt(uploaded[data],10) + 1;
+	    	}
+	    	afterConfirm();
+	    	$("#post-area").val($("#post-area").val() + '#随手拍#').trigger('input');
+	    	$('#pt_upload_dialog').modal('hide');
+		};
+
+		xiuxiu.onBeforeUpload = function (data, id)
+		{
+		  var size = data.size;
+		  if(size > 2 * 1024 * 1024)
+		  { 
+		    alert("图片不能超过2M"); 
+		    return false; 
+		  }
+		  return true; 
+		};
+
+
+
 		$('#beginUpload').click(function(event) {
 			var myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
 			myDropzone.processQueue();
 		});
 
-		$('#confirmUpload').click(function(event){
-			var _this = $(this),
-				$weibo = $('#template1'),
+
+		function afterConfirm() {
+			$weibo = $('#template1'),
 				$imga = $("#template2"),
-				time = new Date().getTime();
+				time = new Date().getTime(),
+				myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
 			$weibo.find('.wb_content a').remove();
-			$("#post-area").val($("#post-area").val() + '#随手拍#');
+
+			if(myDropzone.getAcceptedFiles().length > 0) {
+				$("#post-area").val($("#post-area").val() + '#随手拍#').trigger('input');
+
+			}
+
 			$.each(uploaded, function(key,value){
 				var newImga = $imga.clone();
 				newImga.attr({
@@ -316,9 +357,92 @@
 				}).show();
 				$weibo.find('.wb_content').append(newImga);
 			});
+		}
+
+		$('#confirmUpload').click(function(event){
+			afterConfirm();	
 		});
 
 
+		//wb display part
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		 	console.log(e.target);// activated tab
+		    console.log(e.relatedTarget); // previous tab
+
+		    var _this = $(e.target);
+		    if(_this.attr('href') == "#myweibo") {
+		    	$.ajax({
+		    		url: '/displayMyPost',
+		    		type: 'post',
+		    		dataType: 'json'
+		    	})
+		    	.done(function(data) {
+		    		console.log(data);
+		    		displayWB(data);
+		    	})
+		    	.fail(function(err) {
+		    		console.log(err);
+		    	});
+		    }
+
+		});
+
+
+		function displayWB(data) {
+			var $weibo = $('#template1'),
+				$imga = $("#template2");
+			$weibo.find('.wb_content a').remove();
+			$.each(data,function(index,value){
+				var imgs = value.imgs,
+					time = value.post_time,
+					author = value.autor,
+					content = value.content,
+					$newWB = $weibo.clone();
+				$newWB.attr({id:time});
+				$.each(imgs, function(index,value){
+					var newImga = $imga.clone();
+					newImga.attr({
+						href : value,
+						rel : time,
+						id : time
+					}).find('img').attr({
+						src : value
+					}).show();
+					$newWB.find('.wb_content').append(newImga);
+				});
+				$newWB.find(".uname").text(author);
+				$('<p>').text(content).appendTo($newWB.find('.wb_text'));
+				$newWB.find('.wb_time a').text(getTimeStr(time));
+				$newWB.prependTo($('#myweibo')).show().find('.wb_content a').css('display','inline');
+			});
+		}
+
+
+		function getTimeStr(time) {
+			var postDate = new Date(time),
+				nowDate = new Date(),
+				diff = nowDate.getTime() - time;
+
+			if(diff > 86400000) {
+				return getFormatDateStr(postDate);
+			} else if(diff > 3600000){
+				return Math.floor(diff/3600000) + '小时前';
+			} else if(diff > 60000){
+				return Math.floor(Math.floor(diff/1000)/60) + '分钟前';
+			} else {
+				return '刚刚';
+			}
+
+		}
+
+		function getFormatDateStr(date) {
+			var y = date.getFullYear(),
+				m = date.getMonth() + 1,
+				d = date.getDay() + 1,
+				h = date.getHours(),
+				m = date.getMinutes();
+			return y + '-' + m + '-' + d + ' ' + h + ':' + m;
+		}
 }); //jQuery
 	
 	

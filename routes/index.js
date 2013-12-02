@@ -204,3 +204,17 @@ exports.deleteImg = function(req,res) {
 }
 
 
+exports.displayAllPost = function(req,res) {
+	
+};
+
+exports.displayMyPost = function(req,res) {
+	var author = req.session.user.name;
+	Post.getByAuthor(author,function(err,posts){
+		if(err) {
+			throw err;
+		}
+		res.send(posts);
+	});
+};
+

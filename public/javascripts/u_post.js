@@ -36,58 +36,58 @@
 	    }        
 	});
 
+	
+
+
 	$(function(){
  
-		var uploaded = {};
+		var uploaded = {},isPost = 0;
+
+		//loading all related post 
+		
+
 		Dropzone.options.simpleUploadDropzone = {
 			maxFilesize: 2,
-			autoProcessQueue : true,
+			autoProcessQueue : false,
 			parallelUploads: 5,
+			addRemoveLinks : true,
 			maxFiles : 5,
-      		addRemoveLinks: true,
       		acceptedFiles: 'image/*',
 			init: function() {
 
 			    this.on("maxfilesexceeded", function(file){
 			        alert("No more files please!");
 			    });
+
 			    this.on("removedfile",function(file){
 			    		console.log("a file " + file.name + "is removed");
+			    		if(uploaded[file.name]&&uploaded[file.name].length !=0&&isPost==0) {
+			    			var fname = uploaded[file.name].shift();
+	    					$.ajax({
+									url: '/deleteImg',
+									type: 'post',
+									dataType: 'json',
+									data: {
+										filename: fname
+									}
+							}).done(function(data){
 
-			    		$.each(uploaded,function(value,num){
-			    			if(value.indexOf(file.name) > 0) {
-			    				uploaded[value]--;
-			    				if(uploaded[value] == 0) {
-			    					delete uploaded[value];
-			    					$.ajax({
-										url: '/deleteImg',
-										type: 'post',
-										dataType: 'json',
-										data: {
-											filename: file.name
-										}
-									}).done(function(data){
+							}).fail(function(err){
 
-									}).fail(function(err){
-
-									});
-			    				}
-			    				return false;
-			    			}
-			    		});
-
-			    	
+							});
+			    		}
 			    });
+
 			    this.on("success",function(file,data){
-			    	console.log("file:" + file);
+			    	isPost = 0;
+			    	var filename = file.name;
+			    	console.log("file:" + file.name);
 			    	console.log('已上传:' + this.getAcceptedFiles().length);
 			    	console.log("总共可以上传几个文件:" + Dropzone.options.simpleUploadDropzone['maxFiles']);
-
-			    	if(!uploaded[data]) {
-			    		uploaded[data] = 1;
-			    	} else {
-			    		uploaded[data] = parseInt(uploaded[data],10) + 1;
-			    	}
+			    	if(!uploaded[filename]) {
+			    		uploaded[filename] = [];
+			    	} 
+			    	uploaded[filename].push(data);
 			    });
 		  	}
 		};
@@ -192,10 +192,13 @@
 
 
 		$("#post_weibo").click(function(event) {
-			var _this = $(this);
+			var _this = $(this),
 				content = $('#post-area').val(),
 				imgs = [];
-				$('#post-area').val("");
+				console.log(content);
+				content = parsePostContent(content);
+				console.log(content);
+				$('#post-area').val("").trigger('input');
 				$("#template1").find('.wb_content a').each(function(index){
 					imgs.push($(this).attr('href'));
 				});
@@ -207,22 +210,30 @@
 				dataType: 'json',
 				data: {
 					content: content,
-					imgs:imgs.join('-')
+					imgs:imgs.join('*')
 				}
 			})
 			.done(function(data) {
 				console.log(data);
 				$("#post_weibo").button('reset');
-				var $all = $("#all"),
-				$newWb = $('#template1').clone().attr({
-					id : new Date().getTime()
-				});
+				if(data.error) {
+					alert(data.error);
+				} else {
+					var $all = $("#all"),
+						d = new Date();
+					$newWb = $('#template1').clone().attr({
+						id : d.getTime()
+					});
 
-				$('#template1').find('.wb_content a').remove();
-			
-				$('<p>').text(content).appendTo($newWb.find(".wb_text"));
-				$newWb.prependTo($all).find('.wb_content a').css('display','inline');
-				$newWb.slideDown();
+					$('#template1').find('.wb_content a').remove();
+					$newWb.find('.wb_time a').text('刚刚').attr({
+						title:getFormatDateStr(d),
+						'data-time' : d.getTime()
+					});
+					$('<p>').html(content).appendTo($newWb.find(".wb_text"));
+					$newWb.prependTo($all).find('.wb_content a').css('display','inline');
+					$newWb.slideDown();
+				}
 			})
 			.fail(function(error) {
 				console.log("error");
@@ -260,16 +271,9 @@
 
 		$('#simple_upload').click(function(event) {
 			var _this = $(this);
-			// $('#simpleUploadDropzone').dropzone({
-			// 	maxFilesize: 2,
-			// 	thumbnailWidth: '20',
-			// 	thumbnailHeight : '20',
-			// 	autoProcessQueue : false
-			// });
-			uploaded = {};
-			var myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
+			/*myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
 			myDropzone.removeAllFiles();
-			
+			*/
 			$("#simple_upload_dialog").modal('show');
 			_this.parents('div.tipbox').hide();
 			event.stopPropagation();
@@ -305,12 +309,8 @@
 		{
 			console.log("上传响应" + data);
 
-	    	if(!uploaded[data]) {
-	    		uploaded[data] = 1;
-	    	} else {
-	    		uploaded[data] = parseInt(uploaded[data],10) + 1;
-	    	}
-	    	afterConfirm();
+	    
+	    	afterConfirm(data);
 	    	$("#post-area").val($("#post-area").val() + '#随手拍#').trigger('input');
 	    	$('#pt_upload_dialog').modal('hide');
 		};
@@ -334,33 +334,54 @@
 		});
 
 
-		function afterConfirm() {
-			$weibo = $('#template1'),
-				$imga = $("#template2"),
-				time = new Date().getTime(),
-				myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
-			$weibo.find('.wb_content a').remove();
-
+		function afterConfirm(data) {
+				var $weibo = $('#template1'),
+					$imga = $("#template2"),
+					time = new Date().getTime();
+				   
+			
+			myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
+		
 			if(myDropzone.getAcceptedFiles().length > 0) {
 				$("#post-area").val($("#post-area").val() + '#随手拍#').trigger('input');
 
 			}
-
-			$.each(uploaded, function(key,value){
+			if(data) {
 				var newImga = $imga.clone();
 				newImga.attr({
-					href : key,
+					href : data,
 					rel : time,
 					id : time
 				}).find('img').attr({
-					src : key
+					src : data
 				}).show();
 				$weibo.find('.wb_content').append(newImga);
-			});
+			} else {
+					$.each(uploaded,function(key,value){
+						if(value.length > 0) {
+							for(var i = 0; i < value.length; i++) {
+								var newImga = $imga.clone();
+								newImga.attr({
+									href : value[i],
+									rel : time,
+									id : time
+								}).find('img').attr({
+									src : value[i]
+								}).show();
+								$weibo.find('.wb_content').append(newImga);
+							}
+						}
+					});
+			}
+		
 		}
 
 		$('#confirmUpload').click(function(event){
+			isPost = 1;
 			afterConfirm();	
+			var myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
+			myDropzone.removeAllFiles();
+			uploaded = {};
 		});
 
 
@@ -378,7 +399,20 @@
 		    	})
 		    	.done(function(data) {
 		    		console.log(data);
-		    		displayWB(data);
+		    		displayWB(data,$('#myweibo'));
+		    	})
+		    	.fail(function(err) {
+		    		console.log(err);
+		    	});
+		    } else if (_this.attr('href') == "#all") {
+		    	$.ajax({
+		    		url: '/displayAllPost',
+		    		type: 'post',
+		    		dataType: 'json'
+		    	})
+		    	.done(function(data) {
+		    		console.log(data);
+		    		displayWB(data,$('#all'));
 		    	})
 		    	.fail(function(err) {
 		    		console.log(err);
@@ -387,16 +421,18 @@
 
 		});
 
+		$('a[href="#all"]').trigger('shown.bs.tab');
 
-		function displayWB(data) {
+		function displayWB(data,where) {
 			var $weibo = $('#template1'),
 				$imga = $("#template2");
 			$weibo.find('.wb_content a').remove();
+			where.empty();
 			$.each(data,function(index,value){
 				var imgs = value.imgs,
 					time = value.post_time,
 					author = value.autor,
-					content = value.content,
+					content = value.post_content,
 					$newWB = $weibo.clone();
 				$newWB.attr({id:time});
 				$.each(imgs, function(index,value){
@@ -411,9 +447,9 @@
 					$newWB.find('.wb_content').append(newImga);
 				});
 				$newWB.find(".uname").text(author);
-				$('<p>').text(content).appendTo($newWB.find('.wb_text'));
+				$('<p>').html(content).appendTo($newWB.find('.wb_text'));
 				$newWB.find('.wb_time a').text(getTimeStr(time));
-				$newWB.prependTo($('#myweibo')).show().find('.wb_content a').css('display','inline');
+				$newWB.appendTo(where).show().find('.wb_content a').css('display','inline');
 			});
 		}
 
@@ -443,6 +479,27 @@
 				m = date.getMinutes();
 			return y + '-' + m + '-' + d + ' ' + h + ':' + m;
 		}
+
+
+		//emotions parser part
+
+		function parsePostContent(content) {
+			var result,
+				emojiRegExp = new RegExp(/\[([^\]\[]*)\]/g),
+				$imgs = $('ul.emo li img');		
+				while(result = emojiRegExp.exec(content)) {
+					console.log(result[1]);
+					var $newImg = $imgs.filter('[title^='+result[1]+']').eq(0).clone(),
+						index = result.index,
+						length = result[0].length;
+
+					content = content.substring(0,index) + $newImg.get(0).outerHTML + content.substring(length+index);
+				}
+			
+				return content;
+
+		}
+
 }); //jQuery
 	
 	

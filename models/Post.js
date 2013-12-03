@@ -61,3 +61,23 @@ Post.getByContent = function(post_contnet,callback) {
 
 };
 
+
+Post.getPostByAuthors = function(gz,callback) {
+	mongodb.open(function(err,db){
+		if(err) {
+			callback(err);
+		}
+
+		db.collection('post',function(err,collection){
+			if(err) {
+				mongodb.close();
+				callback(err);
+			}
+
+			collection.find({author:{$in:gz}},{sort : [['post_time','desc']]}).toArray(function(err,posts){
+				mongodb.close();
+				callback(err,posts);
+			});
+		});
+	});
+}

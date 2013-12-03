@@ -7,7 +7,8 @@
 	 User = require('../models/User'),
 	 Post = require('../models/Post'),
 	 fs = require('fs'),
-	 path = require("path");
+	 path = require("path"),
+	 uuid = require('node-uuid');
 
 
 
@@ -41,7 +42,8 @@ exports.postReg = function(req,res) {
 
 	var newUser = new User({
 		name : req.body.username,
-		password : password
+		password : password,
+		gz : []
 	});
 
 	User.get(newUser.name,function(err,user){
@@ -110,14 +112,17 @@ exports.logout = function(req,res) {
 exports.postWeibo = function(req,res) {
 	var content = req.body.content,
 		author = req.session.user.name,
-		imgs = req.body.imgs.split('-'),
+		imgs = req.body.imgs.split('*'),
 		time = new Date().getTime();
 		console.log(imgs);
 
 	if(!content || !content.trim()) {
-		res.send({'error':'发送内容不能为空'});
+		return res.send({'error':'发送内容不能为空'});
 	}
 
+	if(imgs == "") {
+		imgs = [];
+	}
 	var newPost = new Post({author:author,post_content:content,post_time:time,imgs:imgs});
 
 	newPost.save(function(err,post){
@@ -146,13 +151,15 @@ exports.checkNotLogin = function(req,res,next) {
 
 exports.uploadImages = function(req,res) {
 
-
+	console.log(req.files);
+	console.log(path.extname('we.e.e.jpg'));
 	var fileName = req.files.file.originalFilename,
+		newFileName = uuid.v1() + path.extname(fileName),
 		filePath = req.files.file.path,
 		username = req.session.user.name,
 		newPicDir = path.normalize(__dirname + path.sep + '../picsdir'),
 		newUserPicDir = newPicDir + path.sep + username,
-		newImgFilePath = newUserPicDir + path.sep + fileName;
+		newImgFilePath = newUserPicDir + path.sep + newFileName;
 
 
 	console.log(newPicDir);
@@ -182,7 +189,7 @@ exports.uploadImages = function(req,res) {
 
 	console.log(fileName);
 
-	res.send('/' + username + '/' + fileName);
+	res.send('/' + username + '/' + newFileName);
 
 };
 
@@ -190,9 +197,9 @@ exports.uploadImages = function(req,res) {
 exports.deleteImg = function(req,res) {
 	var fileName = req.body.filename,
 		username = req.session.user.name,
-		filePath = path.normalize(__dirname + path.sep + '..'+ path.sep + 'picsdir' + path.sep + username + path.sep + fileName);
+		filePath = path.normalize(__dirname + path.sep + '..'+ path.sep + 'picsdir' + path.sep + fileName);
 
-	console.log(filePath);
+	console.log('filePath:' + filePath);
 	if(fs.existsSync(filePath)) {
 		fs.unlink(filePath, function (err) {
 			  if (err) throw err;
@@ -205,7 +212,21 @@ exports.deleteImg = function(req,res) {
 
 
 exports.displayAllPost = function(req,res) {
-	
+	var author = req.session.user.name,
+		gz;
+	User.get(author,function(err,user){
+		if(err) {
+			throw err;
+		}
+		console.log(user);
+		gz = user.gz;
+
+		gz.push(author);
+		Post.getPostByAuthors(gz,function(err,posts){
+			if(err) throw err;
+			res.send(posts);
+		})
+	});
 };
 
 exports.displayMyPost = function(req,res) {

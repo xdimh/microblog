@@ -471,13 +471,17 @@
 
 		}
 
+		function addZero(d) {
+			return new String(d).length == 2 ? d : '0' + d;
+		}
+
 		function getFormatDateStr(date) {
 			var y = date.getFullYear(),
 				m = date.getMonth() + 1,
 				d = date.getDay() + 1,
 				h = date.getHours(),
-				m = date.getMinutes();
-			return y + '-' + m + '-' + d + ' ' + h + ':' + m;
+				mi = date.getMinutes();
+			return y + '-' + addZero(m) + '-' + addZero(d) + ' ' + addZero(h) + ':' + addZero(mi);
 		}
 
 

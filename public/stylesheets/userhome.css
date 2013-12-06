@@ -48,7 +48,7 @@ button {
 	background-clip: padding-box;
 }
 
-.tipbox .arrow,.comments .arrow {
+.tipbox .arrow,.comments-tipbox .arrow {
 	top: -11px;
 	margin-left: -11px;
 	
@@ -64,7 +64,7 @@ button {
 	border-top-width:0px;
 }
 
-.tipbox .arrow::after , .comments .arrow::after {
+.tipbox .arrow::after , .comments-tipbox .arrow::after {
 	position: absolute;
 	display: block;
 	width: 0;
@@ -187,35 +187,88 @@ button {
 	margin-left: 20px
 }
 
-.comments {
-	height: 200px;
+.comments-tipbox {
+	
 	margin: 8px 10px 10px;	
 	border: 1px solid #ccc;
 	border-radius: 3px;
 	position: relative;
+	overflow: hidden;
+	zoom:1;
 }
 
-.comments .arrow {
+.comments-tipbox .arrow {
 	right:15px !important;
 }
 
 
-.m-comments-textarea {
+
+/*comments module*/
+.comments {
+	overflow: hidden;
+	zoom:1;
+}
+
+.m-cmts {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.m-cmts-textarea {
+	margin:10px;
+	margin-bottom: 5px;
+}
+
+.m-cmts-textarea textarea {
+	resize:none;
+}
+
+.m-cmts-func {
+	
+	border: 1px dotted #000;
+	vertical-align: middle;
+	overflow: hidden;
+	zoom:1;
+}
+
+.m-cmts-func span {
+	display: block;
+	float: left;
+	padding: 4px;
+	line-height: normal;	
+}
+
+.m-cmts-func button {
+	float:right;
+	width:50px;
+	padding: 3px 5px;
+}
+
+.m-cmts-avatar {
 
 }
 
-.m-comments-avatar {
+.m-cmts-content {
+	border: 1px solid #000;
+	height: 300px;
+	margin-top:10px;
+	margin-bottom: 10px;
+}
+
+.m-cmts-content-item {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.m-cmts-content-item .u-info {
+	font-size:12px;
+}
+
+.m-cmts-content-item .c-text {
 
 }
 
-.m-comments-content {
-
-}
-
-.m-comments-reply {
+.m-cmts-reply {
 	
 }
 
-.m-comments-func {
-
-}

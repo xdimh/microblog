@@ -79,7 +79,11 @@
 		button_text : '评论'
 	};
 
-	$(function(){
-		$('.comments').comments();
-	});
+	// $(function(){
+	// 	$('.comments').comments();
+	// });
+
+
 })(jQuery,window); 
+
+

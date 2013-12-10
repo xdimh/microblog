@@ -5,6 +5,7 @@ function Post(post) {
 	this.post_content = post.post_content;
 	this.post_time = new Date().getTime();
 	this.imgs = post.imgs;
+	this.commentsNum = 0;
 }
 
 module.exports = Post;

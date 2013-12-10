@@ -221,8 +221,8 @@
 				} else {
 					var $all = $("#all"),
 						d = new Date();
-					$newWb = $('#template1').clone().attr({
-						id : d.getTime()
+					$newWb = $('#template1').clone(true).attr({
+						id : data[0]._id
 					});
 
 					$('#template1').find('.wb_content a').remove();
@@ -433,7 +433,7 @@
 					time = value.post_time,
 					author = value.autor,
 					content = value.post_content,
-					$newWB = $weibo.clone();
+					$newWB = $weibo.clone(true);
 				$newWB.attr({id:time});
 				$.each(imgs, function(index,value){
 					var newImga = $imga.clone();
@@ -503,6 +503,22 @@
 				return content;
 
 		}
+
+		//comments
+
+		$('.j-comments').bind('click',function(event){
+			var _this = $(this),
+				$content = _this.parents('.content'),
+				$commentTipBox;
+
+			if(!($(".comments-tipbox",$content).size() > 0)){
+				$commentTipBox = $('<div>').addClass('comments-tipbox');
+				$('<div>').addClass('arrow').appendTo($commentTipBox);
+				$('<div>').addClass('comments').comments().appendTo($commentTipBox);
+				$commentTipBox.hide().appendTo($content);
+			}		
+			$(".comments-tipbox",$content).slideToggle();
+		});
 
 }); //jQuery
 	

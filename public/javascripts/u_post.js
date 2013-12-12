@@ -60,7 +60,7 @@
 			    });
 
 			    this.on("removedfile",function(file){
-			    		console.log("a file " + file.name + "is removed");
+			    		// console.log("a file " + file.name + "is removed");
 			    		if(uploaded[file.name]&&uploaded[file.name].length !=0&&isPost==0) {
 			    			var fname = uploaded[file.name].shift();
 	    					$.ajax({
@@ -81,9 +81,9 @@
 			    this.on("success",function(file,data){
 			    	isPost = 0;
 			    	var filename = file.name;
-			    	console.log("file:" + file.name);
-			    	console.log('已上传:' + this.getAcceptedFiles().length);
-			    	console.log("总共可以上传几个文件:" + Dropzone.options.simpleUploadDropzone['maxFiles']);
+			    	// console.log("file:" + file.name);
+			    	// console.log('已上传:' + this.getAcceptedFiles().length);
+			    	// console.log("总共可以上传几个文件:" + Dropzone.options.simpleUploadDropzone['maxFiles']);
 			    	if(!uploaded[filename]) {
 			    		uploaded[filename] = [];
 			    	} 
@@ -195,9 +195,9 @@
 			var _this = $(this),
 				content = $('#post-area').val(),
 				imgs = [];
-				console.log(content);
+			
 				content = parsePostContent(content);
-				console.log(content);
+			
 				$('#post-area').val("").trigger('input');
 				$("#template1").find('.wb_content a').each(function(index){
 					imgs.push($(this).attr('href'));
@@ -214,7 +214,7 @@
 				}
 			})
 			.done(function(data) {
-				console.log(data);
+			
 				$("#post_weibo").button('reset');
 				if(data.error) {
 					alert(data.error);
@@ -236,13 +236,13 @@
 				}
 			})
 			.fail(function(error) {
-				console.log("error");
+				
 			});
 		});
 
 		$('a[rel^="group"]').click(function(event) {
 			/* Act on the event */
-			console.log("I'm clicked");
+		
 		});
 
 		$('.fancybox').fancybox({
@@ -307,7 +307,7 @@
 
 		xiuxiu.onUploadResponse = function (data)
 		{
-			console.log("上传响应" + data);
+			
 
 	    
 	    	afterConfirm(data);
@@ -387,8 +387,7 @@
 
 		//wb display part
 		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-		 	console.log(e.target);// activated tab
-		    console.log(e.relatedTarget); // previous tab
+	
 
 		    var _this = $(e.target);
 		    if(_this.attr('href') == "#myweibo") {
@@ -398,11 +397,9 @@
 		    		dataType: 'json'
 		    	})
 		    	.done(function(data) {
-		    		console.log(data);
 		    		displayWB(data,$('#myweibo'));
 		    	})
 		    	.fail(function(err) {
-		    		console.log(err);
 		    	});
 		    } else if (_this.attr('href') == "#all") {
 		    	$.ajax({
@@ -411,11 +408,11 @@
 		    		dataType: 'json'
 		    	})
 		    	.done(function(data) {
-		    		console.log(data);
+		    	
 		    		displayWB(data,$('#all'));
 		    	})
 		    	.fail(function(err) {
-		    		console.log(err);
+		    	
 		    	});
 		    }
 
@@ -492,7 +489,7 @@
 				emojiRegExp = new RegExp(/\[([^\]\[]*)\]/g),
 				$imgs = $('ul.emo li img');		
 				while(result = emojiRegExp.exec(content)) {
-					console.log(result[1]);
+				
 					var $newImg = $imgs.filter('[title^='+result[1]+']').eq(0).clone(),
 						index = result.index,
 						length = result[0].length;

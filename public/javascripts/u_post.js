@@ -1,44 +1,5 @@
 (function($,window){
-
-	//获取关标位置 和 设置光标位置（收藏）
-	$.fn.extend({
-	    getCurPos: function(){
-	        var e=$(this).get(0);
-	        e.focus();
-	        if(e.selectionStart){    //FF
-	            return e.selectionStart;
-	        }
-	        if(document.selection){    //IE
-	            var r = document.selection.createRange();
-	            if (r == null) {
-	                return e.value.length;
-	            }
-	            var re = e.createTextRange();
-	            var rc = re.duplicate();
-	            re.moveToBookmark(r.getBookmark());
-	            rc.setEndPoint('EndToStart', re);
-	            return rc.text.length;
-	        }
-	        return e.value.length;
-	    },
-	    setCurPos: function(pos) {
-	        var e=$(this).get(0);
-	        e.focus();
-	        if (e.setSelectionRange) {
-	            e.setSelectionRange(pos, pos);
-	        } else if (e.createTextRange) {
-	            var range = e.createTextRange();
-	            range.collapse(true);
-	            range.moveEnd('character', pos);
-	            range.moveStart('character', pos);
-	            range.select();
-	        }
-	    }        
-	});
-
 	
-
-
 	$(function(){
  
 		var uploaded = {},isPost = 0;
@@ -97,9 +58,13 @@
 			var _this = $(this),
 				clazzName = _this.attr('data-toggle');
 
-
-			
 			$(".tipbox").not("." + clazzName).hide();
+			if(clazzName == "expression") {
+				$("." + clazzName).css({
+					left : _this.offset().left,
+					top : _this.offset().top + _this.outerHeight() + 11
+				});
+			}
 			$("." + clazzName).toggle();
 			event.stopPropagation();
 		});
@@ -177,6 +142,10 @@
 				return $(obj).val().length;
 			}
 		}
+
+		$(document).on('add.emoij',function(event,textarea){
+			
+		});
 
 		$(".emo li").click(function(event) {
 			var _this = $(this),
@@ -511,7 +480,7 @@
 			if(!($(".comments-tipbox",$content).size() > 0)){
 				$commentTipBox = $('<div>').addClass('comments-tipbox');
 				$('<div>').addClass('arrow').appendTo($commentTipBox);
-				$('<div>').addClass('comments').comments().appendTo($commentTipBox);
+				$('<div>').addClass('comments').comments({button_text:'评论',isHasComments:true}).appendTo($commentTipBox);
 				$commentTipBox.hide().appendTo($content);
 			}		
 			$(".comments-tipbox",$content).slideToggle();

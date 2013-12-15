@@ -67,6 +67,9 @@ app.post('/picupload',routes.uploadImages);
 app.post('/deleteImg',routes.deleteImg);
 app.post('/displayAllPost',routes.displayAllPost);
 app.post('/displayMyPost',routes.displayMyPost);
+
+app.post('/dsc',routes.displayAllCommentsByPostId);
+app.post('/svc',routes.saveComment);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

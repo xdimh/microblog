@@ -56,14 +56,23 @@
 		$("#exp_pic,#post_pic").click(function(event) {
 			/* Act on the event */
 			var _this = $(this),
+				$previous ,
+				$textarea = _this.parents('.func_area').prev(),
 				clazzName = _this.attr('data-toggle');
-
+			
 			$(".tipbox").not("." + clazzName).hide();
 			if(clazzName == "expression") {
+				$previous = $("." + clazzName).data('previous');
+
+				if($previous && _this.data('mark') != $previous.data('mark')) {
+					$("." + clazzName).hide();
+				}
+
+				_this.data('mark',new Date().getTime());
 				$("." + clazzName).css({
 					left : _this.offset().left,
 					top : _this.offset().top + _this.outerHeight() + 11
-				});
+				}).data({'textarea' : $textarea,'previous' :  _this});
 			}
 			$("." + clazzName).toggle();
 			event.stopPropagation();
@@ -143,19 +152,19 @@
 			}
 		}
 
-		$(document).on('add.emoij',function(event,textarea){
-			
-		});
+	
 
 		$(".emo li").click(function(event) {
 			var _this = $(this),
 				emoCode = _this.find('img').attr("title"),
+				$textarea = _this.parents('.tipbox').data('textarea'),
 				curPos;
 
-			curPos = insertText($('#post-area').get(0),'[' + emoCode + ']');
-			$('#post-area').trigger('input');
+			curPos = insertText($textarea.get(0),'[' + emoCode + ']');
+			$textarea.trigger('input');
+			$textarea.trigger('keyup');
 			_this.parents('div.tipbox').hide();
-			$('#post-area').setCurPos(curPos);
+			$textarea.setCurPos(curPos);
 			event.stopPropagation();
 		});
 
@@ -366,6 +375,7 @@
 		    		dataType: 'json'
 		    	})
 		    	.done(function(data) {
+		    		console.log(data);
 		    		displayWB(data,$('#myweibo'));
 		    	})
 		    	.fail(function(err) {
@@ -400,7 +410,7 @@
 					author = value.autor,
 					content = value.post_content,
 					$newWB = $weibo.clone(true);
-				$newWB.attr({id:time});
+				$newWB.attr({id:value._id});
 				$.each(imgs, function(index,value){
 					var newImga = $imga.clone();
 					newImga.attr({
@@ -472,15 +482,39 @@
 
 		//comments
 
+		function getComments(postId){
+
+			return function(callback) {
+					$.ajax({
+			    		url: '/dsc',
+			    		type: 'post',
+			    		dataType: 'json',
+			    		data : {
+			    			postid : postId
+			    		}
+			    	})
+			    	.done(function(data) {
+			    		console.log(data);
+			    		callback(data);
+			    	})
+			    	.fail(function(err) {
+			    	
+			    	});
+			};
+			
+		}
+
+
 		$('.j-comments').bind('click',function(event){
 			var _this = $(this),
 				$content = _this.parents('.content'),
+				postId = _this.parents('.weibo').attr('id'),
 				$commentTipBox;
-
+			_getComments(postId);
 			if(!($(".comments-tipbox",$content).size() > 0)){
 				$commentTipBox = $('<div>').addClass('comments-tipbox');
 				$('<div>').addClass('arrow').appendTo($commentTipBox);
-				$('<div>').addClass('comments').comments({button_text:'评论',isHasComments:true}).appendTo($commentTipBox);
+				$('<div>').addClass('comments').comments({button_text:'评论',isHasComments:true,getComments(postId)}).appendTo($commentTipBox);
 				$commentTipBox.hide().appendTo($content);
 			}		
 			$(".comments-tipbox",$content).slideToggle();

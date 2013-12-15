@@ -250,6 +250,7 @@ button {
 	padding: 4px;
 	line-height: normal;	
 	cursor: pointer;
+	width:44px;
 }
 
 .m-cmts-func span:hover {
@@ -267,7 +268,7 @@ button {
 
 .m-cmts-content {
 	/*border: 1px solid #000;*/
-	height: 300px;
+	height: auto;
 	margin-top:10px;
 	margin-bottom: 10px;
 }

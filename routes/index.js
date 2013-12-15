@@ -6,6 +6,7 @@
  var crypto = require('crypto'),
 	 User = require('../models/User'),
 	 Post = require('../models/Post'),
+	 Comment = require('../models/Comment'),
 	 fs = require('fs'),
 	 path = require("path"),
 	 uuid = require('node-uuid');
@@ -239,3 +240,33 @@ exports.displayMyPost = function(req,res) {
 	});
 };
 
+exports.displayAllCommentsByPostId = function(req,res) {
+	var postid =  req.body.postid;
+		
+
+	Comment.getAllCommentsByPostId(postid,function(err,comments){
+		if(err) {
+			throw err;
+		}
+		res.send(comments);
+	});
+};
+
+exports.saveComment = function(req,res) {
+	var comment = {
+		content : req.body.content,
+		postid : req.body.postid,
+		author : req.session.user.username,
+		whobereplied : req.body.whobereplied,
+		posttime : new Date().getTime(),
+		favor : 0
+	},
+	newComment = new Comment(comment);
+
+	newComment.save(function(err,comment){
+		if(err) {
+			res.send({'error':err});
+		}
+		res.send(comment);
+	});				
+};

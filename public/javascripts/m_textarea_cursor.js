@@ -1,4 +1,4 @@
-$(function($,window){
+(function($,window){
 
 	//获取关标位置 和 设置光标位置
 	$.fn.extend({

@@ -49,7 +49,7 @@
 
 			function _createFuncArea() {
 				var $areaWraper = $('<div>').addClass('m-cmts m-cmts-func'),
-					$emoSpan = $('<span class="label label-primary">表情</span>'),
+					$emoSpan = $('<span class="label label-primary j-emoij">表 情</span>'),
 					$button = $('<button type="button" class="btn btn-success btn-xs"></button>')
 						.text(opts.button_text).attr({
 							'data-loading-text': '正在' + opts.button_text + '...'
@@ -124,6 +124,26 @@
 
 			}
 
+			function _bindEventOnReplyButton() {
+				var $replyBtn = $('.j-emoij',_thisCommentsArea),
+					$thisTextArea = $('textarea',_thisCommentsArea);
+				$replyBtn.unbind('click.onEmoij').bind('click.onEmoij',function(event){
+					var _this = $(this),
+						$emoij = $('div.tipbox.expression'),
+						$previous = $emoij.data('previous');
+					
+					if($previous && _this.data('mark') != $previous.data('mark'))  {
+						$emoij.hide();
+					}
+					_this.data('mark',new Date().getTime());
+					$emoij.css({
+						left : _this.offset().left,
+						top : _this.offset().top + _this.outerHeight() + 11
+					}).data({'textarea':$thisTextArea,'previous': _this}).toggle();
+					event.stopPropagation();
+				});
+			}
+
 			function _getTextAreaRows(textArea) {
 				var agt = navigator.userAgent.toLowerCase(),
 					is_op = (agt.indexOf("opera") != -1),
@@ -172,8 +192,11 @@
 					cmts.push($cItem);
 
 				});
-
-				return cmts;
+	
+				$.each(cmts, function(index, value) {
+					$itemsDiv.append(value);
+				});
+				_thisCommentsArea.append($itemsDiv);
 			}
 
 			_thisCommentsArea.append(_createTextarea()).append(_createFuncArea());
@@ -182,19 +205,8 @@
 
 			if (opts.isHasComments) {
 
-				$.each(_createCommentsPanel([{
-					avatar: '/img/test.jpeg',
-					content: 'test,test,test',
-					reviewer: 'zzy7186'
-				}, {
-					avatar: '/img/test.jpeg',
-					content: 'test,test,test',
-					reviewer: 'zzy7186'
-				}]), function(index, value) {
-					$itemsDiv.append(value);
-				});
-				_thisCommentsArea.append($itemsDiv);
-
+				
+				getComments(_createCommentsPanel);
 
 				$(document).unbind('reply.comments').on('reply.comments', '.j-reply', function(event, replyWraper) {
 					var $replyBox;
@@ -210,6 +222,7 @@
 			console.log($('textarea', _thisCommentsArea).height());
 
 			_bindEventOnTextArea();
+			_bindEventOnReplyButton();
 
 		});
 

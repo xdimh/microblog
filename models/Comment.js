@@ -1,5 +1,6 @@
-var mongodb = require('./db');
- 
+var mongodb = require('./db'),
+	ObjectID = require('mongodb').ObjectID;
+
 function Comment(comment) {
 	this.reviewer = comment.reviewer;
 	this.whobereplied = comment.whobereplied;
@@ -57,5 +58,30 @@ Comment.getAllCommentsByPostId = function(postId,callback) {
 						callback(err,comments);
 				});
 		});
+	});
+};
+
+
+Comment.getCommentById = function(commentId,callback) {
+	mongodb.open(function(err,db){
+		if(err) {
+			callback(err);
+		}
+		if(!commentId) {
+			mongodb.close();
+			callback(err,null);
+		} else {
+			db.collection('comment',function(err,collection){
+					if(err) {
+						mongodb.close();
+						callback(err);
+					}
+
+					collection.findOne({_id:ObjectID.createFromHexString(commentId)},function(err,comment){
+							mongodb.close();
+							callback(err,comment);
+					});
+			});
+		}
 	});
 };

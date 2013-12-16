@@ -253,20 +253,35 @@ exports.displayAllCommentsByPostId = function(req,res) {
 };
 
 exports.saveComment = function(req,res) {
-	var comment = {
-		content : req.body.content,
-		postid : req.body.postid,
-		author : req.session.user.username,
-		whobereplied : req.body.whobereplied,
-		posttime : new Date().getTime(),
-		favor : 0
-	},
-	newComment = new Comment(comment);
-
-	newComment.save(function(err,comment){
+	var commentId = req.body.commentId,
+		commt = {
+			content : req.body.replyContent,
+			postid : req.body.postId,
+			reviewer : req.session.user.name,
+			whobereplied : req.body.whobereplied,
+			posttime : new Date().getTime(),
+			favor : 0
+		},
+		newComment = new Comment(commt);
+	console.log("commentId:" + commentId);
+	Comment.getCommentById(commentId,function(err,comment){
 		if(err) {
-			res.send({'error':err});
+			throw err;
 		}
-		res.send(comment);
-	});				
+		console.log("comment:" + comment);
+		if(comment) {
+			newComment.whobereplied = comment.reviewer;
+		} else {
+			newComment.whobereplied = null;
+		}
+		
+		newComment.save(function(err,comment){
+			if(err) {
+				res.send({'error':err});
+			}
+			Post.incCount()
+			res.send(comment[0]);
+		});				
+	});
+		
 };

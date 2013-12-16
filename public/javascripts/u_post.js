@@ -510,11 +510,11 @@
 				$content = _this.parents('.content'),
 				postId = _this.parents('.weibo').attr('id'),
 				$commentTipBox;
-			_getComments(postId);
+			getComments(postId);
 			if(!($(".comments-tipbox",$content).size() > 0)){
 				$commentTipBox = $('<div>').addClass('comments-tipbox');
 				$('<div>').addClass('arrow').appendTo($commentTipBox);
-				$('<div>').addClass('comments').comments({button_text:'评论',isHasComments:true,getComments(postId)}).appendTo($commentTipBox);
+				$('<div>').addClass('comments').comments({button_text:'评论',isHasComments:true,getComments:getComments(postId)}).appendTo($commentTipBox);
 				$commentTipBox.hide().appendTo($content);
 			}		
 			$(".comments-tipbox",$content).slideToggle();

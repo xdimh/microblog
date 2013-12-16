@@ -15,7 +15,8 @@ Post.prototype.save = function(callback) {
 		author : this.author,
 		post_content : this.post_content,
 		post_time : this.post_time,
-		imgs : this.imgs
+		imgs : this.imgs,
+		commentsNum : 0
 	};
 
 	mongodb.open(function(err,db){

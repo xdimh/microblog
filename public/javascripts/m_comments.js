@@ -8,44 +8,16 @@
 			// _thisCommentsArea.hide();
 
 
-			function insertText(obj, str) {
-				var textRange,
-					start = obj.selectionStart,
-					end = obj.selectionEnd,
-					value = $(obj).val(),
-					re, rc;
-				if (document.selection && document.selection.createRange) {
-					textRange = document.selection.createRange();
-					textRange.text = str;
-
-					textRange.collapse();
-
-
-					re = obj.createTextRange();
-					rc = re.duplicate();
-					re.moveToBookmark(textRange.getBookmark());
-					rc.setEndPoint('EndToStart', re);
-					return rc.text.length;
-				} else if (typeof start === 'number' && typeof end === 'number') {
-					value = value.substring(0, start) + str + value.substring(end);
-					$(obj).val(value);
-					return start + str.length;
-				} else {
-					$(obj).val(value + str);
-					return $(obj).val().length;
-				}
-			}
-
-			function _createTextarea() {
-				var $textareaWraper = $('<div>').addClass('m-cmts m-cmts-textarea'),
-					$textarea = $('<textarea>').addClass('form-control').attr({
-						rows: 1,
-					}).css({
-						'overflow-y': 'hidden',
-						height: 34
-					});
-				return $textareaWraper.append($textarea);
-			}
+		   function _createTextarea() {
+                var $textareaWraper = $('<div>').addClass('m-cmts m-cmts-textarea'),
+                        $textarea = $('<textarea>').addClass('form-control').attr({
+                                rows: 1,
+                        }).css({
+                                'overflow-y': 'hidden',
+                                height: 34
+                        });
+                return $textareaWraper.append($textarea);
+            }
 
 			function _createFuncArea() {
 				var $areaWraper = $('<div>').addClass('m-cmts m-cmts-func'),
@@ -54,7 +26,9 @@
 						.text(opts.button_text).attr({
 							'data-loading-text': '正在' + opts.button_text + '...'
 						});
-				$button.bind('')
+				$button.unbind('click.post').bind('click.post',function(event){
+					replyBtnHandler($(this),event);
+				});
 				return $areaWraper.append($emoSpan).append($button);
 			}
 
@@ -70,7 +44,7 @@
 			*/
 
 			function _createReplyBox() {
-				var $replayBoxDiv = $('<div>').addClass('replay-box');
+				var $replayBoxDiv = $('<div>').addClass('reply-box');
 				$('<div>').addClass('arrow').appendTo($replayBoxDiv);
 				$('<div>').addClass('comments').comments({
 					button_text: '回复',
@@ -83,6 +57,61 @@
 
 			function _getTextAreaVal() {
 				return $('textarea', _thisCommentsArea).val();
+			}
+
+			function _getCommentId($btn) {
+				if($btn.parents('.m-cmts-content-item').size() == 0) {
+					return null;
+				} else {
+					return $btn.parents('.m-cmts-content-item').attr('id');
+				}
+			}
+
+			function _getPostId() {
+				return _thisCommentsArea.parents('.weibo').attr('id');
+			}
+
+			function replyBtnHandler(_this,event) {
+				var commentId = _getCommentId(_this),
+					postId = _getPostId(),
+					replyContent = _getTextAreaVal(),
+					$itemsDiv,
+					$replyBox,
+					isreply = true;
+				if(_this.parents('.m-cmts-content').size()>0) {
+					$itemsDiv = _this.parents('.m-cmts-content');
+					isreply = true;
+				} else {
+					$itemsDiv = _this.parents('.m-cmts-func').next('.m-cmts-content');
+					isreply = false;
+				}
+				_this.button('loading');
+				$.ajax({
+			    		url: '/svc',
+			    		type: 'post',
+			    		dataType: 'json',
+			    		data : {
+			    			postId : postId,
+			    			commentId : commentId,
+			    			replyContent : replyContent
+			    		}
+			    	})
+			    	.done(function(data) {
+			    		_this.button('reset');
+			    		console.log(data);
+			    		var $cItem = _createCommmentItem(data);
+			    		$itemsDiv.prepend($cItem);
+			    		if(isreply) {
+			    			$replyBox = _this.parents('.reply-box');
+			    			$('textarea',$replyBox).val("");
+			    			$replyBox.hide();
+			    		} else {
+			    			_this.parents('.m-cmts-func').prev('.m-cmts-textarea').find('textarea').val("");
+			    		}
+			    	})
+			    	.fail(function(err) {
+			    	
+			    	});
 			}
 
 			function _bindEventOnTextArea() {
@@ -164,31 +193,44 @@
 				return str_height;
 			}
 
+
+			function _createCommmentItem(value) {
+				var $cItem = $('<div>').addClass('m-cmts-content-item').attr({id:value._id})
+								.data({'itemsDiv':$itemsDiv}),
+					$a = $('<a href="javascript:void(0)" class="sm-avatar"></a>'),
+					$avatar = $('<img>').attr({
+						src: value.avatar
+					}),
+					$iWraper = $('<div>').addClass('i-wrap'),
+					$uname = $('<a href="javascript:void(0)" class="u-name"></a>').text(value.reviewer + ": "),
+					$textWraper = $('<div>').addClass('c-text'),
+					$p_text = $('<p>').html(value.content),
+					$replyWraper = $('<div class="m-cmts-reply" ><ul><li><a href="/favor">喜欢('+ value.favor +')</a></li><li><a class="j-reply" href="javascript:void(0)">回复</a></li></ul></div>');
+
+
+				if(value.whobereplied) {
+					$uname.text($uname.text() + "回复@" + value.whobereplied + ":");
+				} 
+
+				$('.j-reply', $replyWraper).unbind('click.comments').bind('click.comments', function(event) {
+						$(this).trigger('reply.comments', $replyWraper);
+						event.stopPropagation();
+				});
+
+				$a.append($avatar).appendTo($cItem);
+				$uname.appendTo($iWraper);
+				$textWraper.append($p_text).appendTo($iWraper);
+				$replyWraper.appendTo($iWraper);
+				$iWraper.appendTo($cItem);
+
+				return $cItem;
+			}
+
 			function _createCommentsPanel(data) {
 				var cmts = [];
 				$.each(data, function(index, value) {
 
-					var $cItem = $('<div>').addClass('m-cmts-content-item'),
-						$a = $('<a href="javascript:void(0)" class="sm-avatar"></a>'),
-						$avatar = $('<img>').attr({
-							src: value.avatar
-						}),
-						$iWraper = $('<div>').addClass('i-wraper'),
-						$uname = $('<a href="javascript:void(0)" class="u-name"></a>').text(value.reviewer),
-						$textWraper = $('<div>').addClass('c-text'),
-						$p_text = $('<p>').html(value.content),
-						$replyWraper = $('<div class="m-cmts-reply" ><ul><li><a href="/favor">喜欢(0)</a></li><li><a class="j-reply" href="javascript:void(0)">回复</a></li></ul></div>');
-
-					$('.j-reply', $replyWraper).unbind('click.comments').bind('click.comments', function(event) {
-						$(this).trigger('reply.comments', $replyWraper);
-						event.stopPropagation();
-					});
-
-					$a.append($avatar).appendTo($cItem);
-					$uname.appendTo($iWraper);
-					$textWraper.append($p_text).appendTo($iWraper);
-					$replyWraper.appendTo($iWraper);
-					$iWraper.appendTo($cItem);
+					var $cItem = _createCommmentItem(value);
 					cmts.push($cItem);
 
 				});
@@ -206,7 +248,7 @@
 			if (opts.isHasComments) {
 
 				
-				getComments(_createCommentsPanel);
+				opts.getComments(_createCommentsPanel);
 
 				$(document).unbind('reply.comments').on('reply.comments', '.j-reply', function(event, replyWraper) {
 					var $replyBox;
@@ -240,6 +282,8 @@
 	// $(function(){
 	// 	$('.comments').comments();
 	// });
-
+	/*
+		判断评论内容为空时 验证
+	*/
 
 })(jQuery, window);

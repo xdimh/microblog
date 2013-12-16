@@ -258,7 +258,7 @@ button {
 }
 .m-cmts-func button {
 	float:right;
-	width:50px;
+	min-width:50px;
 	padding: 3px 5px;
 }
 

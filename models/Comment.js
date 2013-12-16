@@ -1,4 +1,5 @@
 var mongodb = require('./db'),
+	Post = require('../models/Post'),
 	ObjectID = require('mongodb').ObjectID;
 
 function Comment(comment) {
@@ -35,6 +36,7 @@ Comment.prototype.save = function(callback) {
 			}
 			collection.insert(comment,{safe:true},function(err,comment){
 				mongodb.close();
+				
 				callback(err,comment);
 			});
 		});

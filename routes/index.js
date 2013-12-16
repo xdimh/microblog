@@ -28,7 +28,6 @@ exports.reg = function(req,res) {
 }; 
 
 exports.postReg = function(req,res) {
-
 	console.log(req.body.password);
 	console.log(req.body['password-repeat']);
 
@@ -279,7 +278,7 @@ exports.saveComment = function(req,res) {
 			if(err) {
 				res.send({'error':err});
 			}
-			Post.incCount()
+			Post.addCommentsNum(req.body.postId);
 			res.send(comment[0]);
 		});				
 	});

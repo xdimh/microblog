@@ -1,12 +1,33 @@
 (function($, exports) {
 
-	$.fn.comments = function(options) {
+	var old = $.fn.comments;
+
+	$.fn.comments = MAIN_FN;
+	MAIN_FN.noConflict = function() {return old;};
+
+	function MAIN_FN(options) {
 		var opts = $.fn.extend($.fn.comments.defaults, options || {});
 		return this.each(function(index) {
 			var _thisCommentsArea = $(this),
 				$itemsDiv = $('<div>').addClass('m-cmts m-cmts-content');
 			// _thisCommentsArea.hide();
 
+			function _parsePostContent(content) {
+				var result,
+					emojiRegExp = new RegExp(/\[([^\]\[]*)\]/g),
+					$imgs = $('ul.emo li img');		
+					while(result = emojiRegExp.exec(content)) {
+					
+						var $newImg = $imgs.filter('[title^='+result[1]+']').eq(0).clone(),
+							index = result.index,
+							length = result[0].length;
+
+						content = content.substring(0,index) + $newImg.get(0).outerHTML + content.substring(length+index);
+					}
+				
+					return content;
+
+			}
 
 		   function _createTextarea() {
                 var $textareaWraper = $('<div>').addClass('m-cmts m-cmts-textarea'),
@@ -101,6 +122,9 @@
 			    		console.log(data);
 			    		var $cItem = _createCommmentItem(data);
 			    		$itemsDiv.prepend($cItem);
+			    		$('.j-comments span',_this.parents('.weibo')).text(function(index,text){
+			    			return text-0 + 1 + "";
+			    		});
 			    		if(isreply) {
 			    			$replyBox = _this.parents('.reply-box');
 			    			$('textarea',$replyBox).val("");
@@ -108,6 +132,7 @@
 			    		} else {
 			    			_this.parents('.m-cmts-func').prev('.m-cmts-textarea').find('textarea').val("");
 			    		}
+			    	
 			    	})
 			    	.fail(function(err) {
 			    	
@@ -204,7 +229,7 @@
 					$iWraper = $('<div>').addClass('i-wrap'),
 					$uname = $('<a href="javascript:void(0)" class="u-name"></a>').text(value.reviewer + ": "),
 					$textWraper = $('<div>').addClass('c-text'),
-					$p_text = $('<p>').html(value.content),
+					$p_text = $('<p>').html(_parsePostContent(value.content)),
 					$replyWraper = $('<div class="m-cmts-reply" ><ul><li><a href="/favor">喜欢('+ value.favor +')</a></li><li><a class="j-reply" href="javascript:void(0)">回复</a></li></ul></div>');
 
 

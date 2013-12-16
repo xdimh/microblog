@@ -1,4 +1,5 @@
-var mongodb = require('./db');
+var mongodb = require('./db'),
+	ObectID = require('mongodb').ObjectID;
 
 function Post(post) {
 	this.author = post.author;
@@ -37,7 +38,7 @@ Post.prototype.save = function(callback) {
 			
 		});
 	});
-}
+};
 
 Post.getByAuthor = function(author,callback) {
 	mongodb.open(function(err,db){
@@ -82,4 +83,22 @@ Post.getPostByAuthors = function(gz,callback) {
 			});
 		});
 	});
-}
+};
+
+
+Post.addCommentsNum = function(postId) {
+	mongodb.open(function(err,db){
+		if(err) {
+			throw err;
+		}
+
+		db.collection('post',function(err,collection){
+			if(err) {
+				mongodb.close();
+				throw err;
+			}
+
+			collection.update({_id:ObjectID.createFromHexString(postId)},{$inc:{'commentsNum':1}},{safe:true});
+		});
+	});
+};

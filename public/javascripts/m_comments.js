@@ -277,10 +277,10 @@
 
 				$(document).unbind('reply.comments').on('reply.comments', '.j-reply', function(event, replyWraper) {
 					var $replyBox;
-					if (!($(replyWraper).next('.replay-box').size() > 0)) {
+					if (!($(replyWraper).next('.reply-box').size() > 0)) {
 						$replyBox = _createReplyBox().hide().insertAfter(replyWraper);
 					} else {
-						$replyBox = $(replyWraper).next('.replay-box');
+						$replyBox = $(replyWraper).next('.reply-box');
 					}
 					$replyBox.slideToggle('fast');
 				});

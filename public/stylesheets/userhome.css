@@ -197,7 +197,7 @@ button {
 	position: relative;
 }
 
-.replay-box {
+.reply-box {
 	position: relative;
 	border: 1px solid #ccc;
 
@@ -206,7 +206,7 @@ button {
 	border-radius: 3px;
 }
 
-.replay-box .arrow {
+.reply-box .arrow {
 	right:0px !important;
 }
 

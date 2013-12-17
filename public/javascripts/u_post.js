@@ -408,6 +408,7 @@
 				var imgs = value.imgs,
 					time = value.post_time,
 					author = value.autor,
+					commentsNum = value.commentsNum,
 					content = value.post_content,
 					$newWB = $weibo.clone(true);
 				$newWB.attr({id:value._id});
@@ -425,6 +426,7 @@
 				$newWB.find(".uname").text(author);
 				$('<p>').html(content).appendTo($newWB.find('.wb_text'));
 				$newWB.find('.wb_time a').text(getTimeStr(time));
+				$newWB.find('.j-comments span').text(commentsNum);
 				$newWB.appendTo(where).show().find('.wb_content a').css('display','inline');
 			});
 		}

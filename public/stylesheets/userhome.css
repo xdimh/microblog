@@ -342,3 +342,50 @@ button {
 .m-cmts-content-item .m-cmts-reply li a {
 	color: #90897a;
 }
+
+
+/*sidebar */
+
+.m-sidebar {
+	/*border:1px solid grey;*/
+	
+	/*z-index:-10;*/
+	
+	padding-top:30px;
+	position: fixed;
+	left:auto;
+	width: 280px;
+
+}
+
+.m-avatar {
+	width:100%;
+	text-align: center;
+}
+
+.m-avatar a {
+	width:224px;
+	height: 260px;
+	display: block;
+	/*margin: 0px 30px;*/
+	margin-left:auto;
+	margin-right: auto;
+	padding: 10px;
+	border: 1px solid #DDD;
+	cursor: pointer;
+	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,.25);
+	-moz-box-shadow: 0 3px 6px rgba(0,0,0,.25);
+}
+
+.m-avatar a span{
+	display: inline-block;
+	margin-top: 10px;
+	
+	line-height: 20px;
+	font-size: 18px;
+
+}
+
+.m-avatar a span:hover {
+	text-decoration: underline;
+}

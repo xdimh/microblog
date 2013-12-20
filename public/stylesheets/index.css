@@ -1,5 +1,6 @@
 body {
 	background-color:#fff;
+	background: #ddd url(/img/bg.jpg) repeat top left;
 }
 
 .weibo {
@@ -55,7 +56,6 @@ body {
 	position: absolute;
 	width: 13px;
 	height: 20px;
-	background-color:#fff;
 	left:-13px;
 	top:20px;
 }

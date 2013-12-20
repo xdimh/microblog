@@ -346,18 +346,23 @@ button {
 
 /*sidebar */
 
+
 .m-sidebar {
 	/*border:1px solid grey;*/
 	
 	/*z-index:-10;*/
-	
+	-webkit-perspective: 400px;
+	-webkit-perspective-origin:50% 100%;
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
 	padding-top:30px;
 	position: fixed;
 	left:auto;
 	width: 280px;
-
+	
 }
 
+/*sidebar avatar*/
 .m-avatar {
 	width:100%;
 	text-align: center;
@@ -373,6 +378,7 @@ button {
 	padding: 10px;
 	border: 1px solid #DDD;
 	cursor: pointer;
+	background-color: #fff;
 	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,.25);
 	-moz-box-shadow: 0 3px 6px rgba(0,0,0,.25);
 }
@@ -389,3 +395,41 @@ button {
 .m-avatar a span:hover {
 	text-decoration: underline;
 }
+
+.m-avatar .fold {
+	position: absolute;
+	top: 100%;
+	width: 224px;
+	height: 46px;
+	background-color: #ddd;
+	background: #73C8A9;
+	left: 28px;
+	-webkit-transform-origin: 50% 0;
+}
+
+.m-avatar .fold-item1 {
+	
+	-webkit-transform: rotateX(-90deg);
+	transition: all 0.6s ease-out;
+}
+
+
+.m-avatar .fold-item2 {
+	left: 0px;
+	border-top: 2px dotted #ddd;
+	
+	-webkit-transform: rotateX(180deg);
+	transition: all 1s ease-out;
+}
+
+.m-avatar .fold-item3 {
+	left: 0px;
+	border-top: 2px dotted #ddd;
+	-webkit-transform-origin: 0 0;
+	-webkit-transform: rotateX(-180deg);
+	transition: all 2s ease-out;
+}
+.m-avatar .fold a {
+	height: 100%;
+}
+

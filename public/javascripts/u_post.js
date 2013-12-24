@@ -252,7 +252,7 @@
 			/*myDropzone = Dropzone.forElement("form#simpleUploadDropzone");
 			myDropzone.removeAllFiles();
 			*/
-			$("#simple_upload_dialog").modal('show');
+			$("#simple_upload_dialog").modal('show').stop(true,true);
 			_this.parents('div.tipbox').hide();
 			event.stopPropagation();
 		});
@@ -267,30 +267,39 @@
 			xiuxiu.embedSWF("pt_editor", 2, 530, 470,"lite");
 		});
 
-		$("#simple_upload_dialog,#pt_upload_dialog").on('show.bs.modal',function(event){
-			$(".modal-dialog",this).css("padding-top",195);
+		$("#simple_upload_dialog,#pt_upload_dialog").on('shown.bs.modal',function(event){
+			var _this = $(this),
+				top = ($(window).height()-_this.find('.modal-dialog').height())/2;
+			//有卡顿现象 需要修改
+			_this.find('.modal-dialog').animate({"padding-top":top}, 300);
 		});
 
 		xiuxiu.onClose = function(id) {
-			$('#pt_upload_dialog').modal('hide');
-		};
-
-		xiuxiu.onInit = function(id) {
 			if(id == "lite") {
-				xiuxiu.setUploadURL('http://localhost:3000/picupload',id);
-				xiuxiu.setUploadType(2,id);
-				xiuxiu.setUploadDataFieldName("file",id);
+				$('#pt_upload_dialog').modal('hide');
+			}
+			if(id =="avatar") {
+				$('#avatar_editor_dialog').modal('hide');
 			}
 		};
 
-		xiuxiu.onUploadResponse = function (data)
-		{
-			
+		xiuxiu.onInit = function(id) {
+				xiuxiu.setUploadURL('http://localhost:3000/picupload',id);
+				xiuxiu.setUploadType(2,id);
+				xiuxiu.setUploadDataFieldName("file",id);
+		};
 
-	    
-	    	afterConfirm(data);
-	    	$("#post-area").val($("#post-area").val() + '#随手拍#').trigger('input');
-	    	$('#pt_upload_dialog').modal('hide');
+		xiuxiu.onUploadResponse = function (data,id)
+		{
+	    	if(id == "lite") {
+	    		afterConfirm(data);
+		    	$("#post-area").val($("#post-area").val() + '#随手拍#').trigger('input');
+		    	$('#pt_upload_dialog').modal('hide');
+	    	}
+	    	if(id == "avatar") {
+	    		console.log(data);
+	    		$('#avatar_editor_dialog').modal('hide');
+	    	}
 		};
 
 		xiuxiu.onBeforeUpload = function (data, id)

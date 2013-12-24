@@ -11,6 +11,8 @@
     "connect-mongo" : " >= 0.1.7",
     "mongodb" : " >= 0.9.9",
     "connect-flash" : "*",
-    "node-uuid" : " >= 1.4.0"
+    "node-uuid" : " >= 1.4.0",
+    "formidable" : " >= 1.0.9",
+    "imagemagick" : " >= 0.1.3"
   }
 }

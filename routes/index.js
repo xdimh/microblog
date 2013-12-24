@@ -6,10 +6,13 @@
  var crypto = require('crypto'),
 	 User = require('../models/User'),
 	 Post = require('../models/Post'),
+	 imgHandler = require('../utils/imageclip'),
 	 Comment = require('../models/Comment'),
 	 fs = require('fs'),
 	 path = require("path"),
-	 uuid = require('node-uuid');
+	 uuid = require('node-uuid'),
+	 formidable = require("formidable"),
+	 sys = require('sys');
 
 
 
@@ -152,18 +155,24 @@ exports.checkNotLogin = function(req,res,next) {
 exports.uploadImages = function(req,res) {
 
 	console.log(req.files);
+	console.log(sys.inspect({"files":req.files,"isAvatar":req.body.isAvatarImg}));
 	console.log(path.extname('we.e.e.jpg'));
-	var fileName = req.files.file.originalFilename,
+
+	var isAvatarImg = req.body.isAvatarImg,
+		fileName = req.files.file.originalFilename,
 		newFileName = uuid.v1() + path.extname(fileName),
 		filePath = req.files.file.path,
 		username = req.session.user.name,
 		newPicDir = path.normalize(__dirname + path.sep + '../picsdir'),
 		newUserPicDir = newPicDir + path.sep + username,
+		newUserAvtaPicDir = newUserPicDir + path.sep + 'avatar',
 		newImgFilePath = newUserPicDir + path.sep + newFileName;
 
 
 	console.log(newPicDir);
 	console.log(newUserPicDir);
+
+
 
 	if(!fs.existsSync(newPicDir)) {
 		fs.mkdirSync(newPicDir);
@@ -173,19 +182,39 @@ exports.uploadImages = function(req,res) {
 		fs.mkdirSync(newUserPicDir);
 	}
 
+	if(isAvatarImg) {
+		if(!fs.existsSync(newUserAvtaPicDir)) {
+			fs.mkdirSync(newUserAvtaPicDir);
+		} else {
+			files = fs.readdirSync(newUserAvtaPicDir);
+			if(files.length != 0) {
+				files.forEach(function(file){
+					var fullname = path.join(newUserAvtaPicDir,file);
+					fs.unlinkSync(fullname);
+				});
+			}
+		}
+		newImgFilePath = newUserAvtaPicDir + path.sep + 'big' + path.extname(fileName);	
+	} 
+
 	fs.readFile(filePath, function(err,data){
 		if(err) {
 			throw err;
 		}
-
 		fs.writeFile(newImgFilePath,data,function(err){
 			if(err) {
 				throw err;
 			}
 			console.log("img saved");
 		});
-
 	});
+
+	if(isAvatarImg) {
+		//头像的剪裁和更新user信息
+		imgHandler.resizeImg(newImgFilePath,30,30,"small");
+		imgHandler.resizeImg(newImgFilePath,64,64,"middle");
+		res.redirect('/user/' + username);
+	}
 
 	console.log(fileName);
 
@@ -284,3 +313,4 @@ exports.saveComment = function(req,res) {
 	});
 		
 };
+

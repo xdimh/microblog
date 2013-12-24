@@ -83,9 +83,22 @@
 		</div><!-- /.modal -->
 
 
+		<!--xiuxiu avatar upload Modal -->
+		<div class="modal fade" id="avatar_editor_dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+	
+		  <div class="modal-dialog">
+		    <div id="avatar_editor" class="" style="width:auto;height:auto">
+		    
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+
+		</div><!-- /.modal -->
+
+
+
 		<div style="margin-top:50px;margin-bottom:10px;"></div>
 
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-pills">
 			<li class="active">
 				<a href="#all" data-toggle="tab">全部</a>
 			</li>
@@ -109,20 +122,29 @@
 	<div class="col-md-4">
 		<div class="m-sidebar">
 			<div class="m-avatar">
-				<a href="javascript:void(0)">
-					<img src="/img/default_avatar/default_avatar01.jpeg" style="border:1px solid #ddd;"/>
-					<span>暴走漫画</span>
-				</a>
-				<div class="fold fold-item1">
-					<a href="javascript:void(0)">修改头像</a>
-					<div class="fold fold-item2">
-						<a href="javascript:void(0)">修改头像</a>
-						<div class="fold fold-item3">
-							<a href="javascript:void(0)">修改头像</a>
+				<div class="view-back">
+					<span>关注:<b>0</b></span>
+					<span>粉丝:<b>0</b></span>
+					<span>微博:<b>0</b></span>
+					<a id="j_mdfyavatar" href="javascript:void(0)">修改头像→</a>
+				</div>
+				<div class="slice s1" style="background-image:url(/zzy7186/avatar/big.jpg);">
+					<span class="overlay"></span>
+					<div class="slice s2">
+						<span class="overlay"></span>
+						<div class="slice s3">
+							<span class="overlay"></span>
+							<div class="slice s4">
+								<span class="overlay"></span>
+								<div class="slice s5">
+									<span class="overlay"></span>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<a id="j_u_name" class="u_name" href="javascript:void(0)">暴走漫画</a>
 		</div>
 	</div>
 </div>
@@ -131,7 +153,7 @@
 <div id="template1" class="weibo" style="display:none;">
 	<div class="avatar">
 		<a href="javascript:void(0)">
-			<img src="/img/test.jpeg"/>
+			<img src="/<%= user.name %>/avatar/middle.jpg"/>
 		</a>
 	</div>
 	<div class="content">

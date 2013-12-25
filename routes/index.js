@@ -76,6 +76,9 @@ exports.postReg = function(req,res) {
 
 exports.user = function(req,res) {
 	var username = req.params.name;
+	console.log(sys.inspect({'user':req.session.user}));
+	res.cookie('username',username);
+	res.cookie('username2','123');
 	res.render('userhome',{
 		title : username + '的微博'
 	});
@@ -213,7 +216,6 @@ exports.uploadImages = function(req,res) {
 		//头像的剪裁和更新user信息
 		imgHandler.resizeImg(newImgFilePath,30,30,"small");
 		imgHandler.resizeImg(newImgFilePath,64,64,"middle");
-		res.redirect('/user/' + username);
 	}
 
 	console.log(fileName);
@@ -314,3 +316,15 @@ exports.saveComment = function(req,res) {
 		
 };
 
+exports.delCommentById = function(req,res) {
+	var commentId = req.body.commentId,
+		postId = req.body.postId;
+
+	Comment.delCommentById(commentId,function(err,num){
+		if(err) {
+			throw err;
+		}
+		Post.minusCommentsNum(postId,num);
+		res.send({"status":'succ'});
+	});
+};

@@ -1,5 +1,5 @@
 var mongodb = require('./db'),
-	ObectID = require('mongodb').ObjectID;
+	ObjectID = require('mongodb').ObjectID;
 
 function Post(post) {
 	this.author = post.author;
@@ -98,7 +98,31 @@ Post.addCommentsNum = function(postId) {
 				throw err;
 			}
 
-			collection.update({_id:ObjectID.createFromHexString(postId)},{$inc:{'commentsNum':1}},{safe:true});
+			collection.update({_id:ObjectID.createFromHexString(postId)},{$inc:{'commentsNum':1}}, function(err, numberUpdated){
+				if(err) {
+					throw err;
+				}
+			});
+		});
+	});
+};
+
+Post.minusCommentsNum = function(postId,num) {
+	mongodb.open(function(err,db){
+		if(err) {
+			throw err;
+		}
+
+		db.collection('post',function(err,collection){
+			if(err) {
+				mongodb.close();
+				throw err;
+			}
+			collection.update({_id:ObjectID.createFromHexString(postId)},{$inc:{'commentsNum':-num}}, function(err, numberUpdated){
+				if(err) {
+					throw err;
+				}
+			});
 		});
 	});
 };

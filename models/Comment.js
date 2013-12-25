@@ -21,7 +21,8 @@ Comment.prototype.save = function(callback) {
 		content : this.content,
 		favor : this.favor,
 		smavatar : this.smavatar,
-		postid : this.postid
+		postid : this.postid,
+		posttime : this.posttime
 	};
 
 	mongodb.open(function(err,db){
@@ -85,5 +86,29 @@ Comment.getCommentById = function(commentId,callback) {
 					});
 			});
 		}
+	});
+};
+
+Comment.delCommentById = function(commentId,callback) {
+	mongodb.open(function(err,db){
+			if(err) {
+				callback(err);
+			}
+			if(!commentId) {
+				mongodb.close();
+				callback(err,null);
+			} else {
+				db.collection('comment',function(err,collection){
+						if(err) {
+							mongodb.close();
+							callback(err);
+						}
+
+						collection.remove({_id:ObjectID.createFromHexString(commentId)},{w:1},function(err,numberOfRemovedDocs){
+								mongodb.close();
+								callback(err,numberOfRemovedDocs);
+						});
+				});
+			}
 	});
 };

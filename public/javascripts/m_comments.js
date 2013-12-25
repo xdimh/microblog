@@ -127,10 +127,10 @@
 			    		});
 			    		if(isreply) {
 			    			$replyBox = _this.parents('.reply-box');
-			    			$('textarea',$replyBox).val("");
+			    			$('textarea',$replyBox).val("").trigger('input.autohight');
 			    			$replyBox.hide();
 			    		} else {
-			    			_this.parents('.m-cmts-func').prev('.m-cmts-textarea').find('textarea').val("");
+			    			_this.parents('.m-cmts-func').prev('.m-cmts-textarea').find('textarea').val("").trigger('input.autohight');;
 			    		}
 			    	
 			    	})
@@ -148,10 +148,7 @@
 						'letter-spacing': 'normal'
 					});
 
-				/*originalHeihgt = $thisTextArea.get(0).clientHeight;
-					console.log($thisTextArea.get(0).clientHeight);
-					console.log(exports.getComputedStyle($thisTextArea.get(0)).height);
-					console.log($thisTextArea.outerHeight());*/
+				
 
 				$thisTextArea.bind('input.autohight', function(event) {
 					var _this = $(this),
@@ -160,13 +157,7 @@
 					$tempDiv.html(text).hide().insertAfter(_this);
 
 					newHeight = $tempDiv.outerHeight();
-					/*		rows = _getTextAreaRows( _this.get(0));
-					 _this.animate({height:_this.get(0).scrollHeight+2},100);
-					_this.css({height:_this.get(0).scrollHeight+2});
-
-					if(_this.attr('rows') != rows) {
-						_this.attr({rows:rows});
-					}*/
+				
 					if (newHeight < 34) {
 						newHeight = 34;
 					}
@@ -218,6 +209,29 @@
 				return str_height;
 			}
 
+			function _deleteCommentEventHandler(_this,commentId,postid) {
+						$.ajax({
+							url: '/delc',
+							type: 'post',
+							dataType: 'json',
+							data: {
+								commentId: commentId,
+								postId : postid
+							},
+						})
+						.done(function(data) {
+							console.log(data);
+							if(data.status == 'succ') {
+								var $plSpan = _this.parents('div.weibo').find('.j-comments span');
+								console.log(_this.parents('div.mm-cmts-content-item'));
+								_this.parents('div.m-cmts-content-item').remove();
+								$plSpan.text($plSpan.text()-1);
+							}
+						})
+						.fail(function() {
+							console.log("error");
+						})
+			}
 
 			function _createCommmentItem(value) {
 				var $cItem = $('<div>').addClass('m-cmts-content-item').attr({id:value._id})
@@ -229,10 +243,15 @@
 					$iWraper = $('<div>').addClass('i-wrap'),
 					$uname = $('<a href="javascript:void(0)" class="u-name"></a>').text(value.reviewer + ": "),
 					$textWraper = $('<div>').addClass('c-text'),
-					$p_text = $('<p>').html(_parsePostContent(value.content)),
+					$p_text = $('<p>').html(_parsePostContent(value.content) + ' ('+$.getTimeStr(value.posttime)+')'),
 					$replyWraper = $('<div class="m-cmts-reply" ><ul><li><a href="/favor">喜欢('+ value.favor +')</a></li><li><a class="j-reply" href="javascript:void(0)">回复</a></li></ul></div>');
 
-
+				if($.getCookie('username') == value.reviewer) {
+					var $delLi = $('<li><a href="javascript:void(0)">删除</a></li>');
+					$delLi.bind('click.delete',function(event){_deleteCommentEventHandler($(this),value._id,value.postid)});
+					$replyWraper.find('ul').prepend($delLi);
+				}
+					
 				if(value.whobereplied) {
 					$uname.text($uname.text() + "回复@" + value.whobereplied + ":");
 				} 

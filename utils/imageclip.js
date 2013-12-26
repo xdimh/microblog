@@ -6,7 +6,7 @@ var gm = require('gm'),
 	imageMagick = gm.subClass({ imageMagick: true });  
 
 
-exports.resizeImg = function(imgPath,width,height,namePrefix) {
+exports.resizeImg = function(imgPath,width,height,namePrefix,callback) {
 	var imgDir = path.dirname(imgPath),
 		imgExt = path.extname(imgPath),
 		newImgPath = imgDir + path.sep +namePrefix + imgExt;
@@ -20,5 +20,8 @@ exports.resizeImg = function(imgPath,width,height,namePrefix) {
 				throw err;
 			}
 			console.log('resized image to fit within ' + width + 'x' + height);
+			if(callback) {
+				callback();
+			}
 		});  		
 };

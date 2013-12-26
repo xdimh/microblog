@@ -46,7 +46,12 @@ exports.postReg = function(req,res) {
 	var newUser = new User({
 		name : req.body.username,
 		password : password,
-		gz : []
+		gz : [],
+		avatar : {
+			'small' : '/img/default_avatar/small.jpeg',
+			'middle' : '/img/default_avatar/middle.jpeg',
+			'big' : '/img/default_avatar/big.jpeg',
+		}
 	});
 
 	User.get(newUser.name,function(err,user){
@@ -78,7 +83,9 @@ exports.user = function(req,res) {
 	var username = req.params.name;
 	console.log(sys.inspect({'user':req.session.user}));
 	res.cookie('username',username);
-	res.cookie('username2','123');
+	res.cookie('small',req.session.user.avatar.small);
+	res.cookie('middle',req.session.user.avatar.middle);
+	res.cookie('big',req.session.user.avatar.big);
 	res.render('userhome',{
 		title : username + '的微博'
 	});
@@ -163,7 +170,8 @@ exports.uploadImages = function(req,res) {
 
 	var isAvatarImg = req.body.isAvatarImg,
 		fileName = req.files.file.originalFilename,
-		newFileName = uuid.v1() + path.extname(fileName),
+		extName = path.extname(fileName),
+		newFileName = uuid.v1() + extName,
 		filePath = req.files.file.path,
 		username = req.session.user.name,
 		newPicDir = path.normalize(__dirname + path.sep + '../picsdir'),
@@ -197,7 +205,12 @@ exports.uploadImages = function(req,res) {
 				});
 			}
 		}
-		newImgFilePath = newUserAvtaPicDir + path.sep + 'big' + path.extname(fileName);	
+		newImgFilePath = newUserAvtaPicDir + path.sep + 'big' + extName;
+		var avatarInfo = {
+						'small' : '/' + username + '/avatar'+ '/small' + extName,
+						'middle' : '/' + username + '/avatar'+ '/middle' + extName,
+						'big' : '/' + username + '/avatar'+ '/big' + extName
+					};	
 	} 
 
 	fs.readFile(filePath, function(err,data){
@@ -209,19 +222,37 @@ exports.uploadImages = function(req,res) {
 				throw err;
 			}
 			console.log("img saved");
+			if(isAvatarImg) {
+					//头像的剪裁和更新user信息
+					imgHandler.resizeImg(newImgFilePath,30,30,"small");
+					imgHandler.resizeImg(newImgFilePath,64,64,"middle",function(){
+						req.session.user.avatar = avatarInfo;
+						res.cookie('small',req.session.user.avatar.small);
+						res.cookie('middle',req.session.user.avatar.middle);
+						res.cookie('big',req.session.user.avatar.big);
+						res.send('/' + username + '/' + newFileName);
+						User.updateAvatar(username,avatarInfo,function(err,result){
+							if(err) {
+								throw err;
+							} 
+						});
+					});
+					
+					
+			} else {
+				req.session.user.avatar = avatarInfo;
+				res.cookie('small',req.session.user.avatar.small);
+				res.cookie('middle',req.session.user.avatar.middle);
+				res.cookie('big',req.session.user.avatar.big);
+				res.send('/' + username + '/' + newFileName);
+			}
+		
+			
+			
 		});
 	});
 
-	if(isAvatarImg) {
-		//头像的剪裁和更新user信息
-		imgHandler.resizeImg(newImgFilePath,30,30,"small");
-		imgHandler.resizeImg(newImgFilePath,64,64,"middle");
-	}
-
-	console.log(fileName);
-
-	res.send('/' + username + '/' + newFileName);
-
+	
 };
 
 

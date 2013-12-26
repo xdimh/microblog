@@ -4,7 +4,7 @@ function User(user) {
 	this.name = user.name;
 	this.password = user.password;
 	this.gz = user.gz;
-
+	this.avatar = user.avatar;
 }
 
 module.exports = User;
@@ -13,7 +13,8 @@ User.prototype.save = function(callback) {
 	var user = {
 		name : this.name,
 		password : this.password,
-		gz : this.gz
+		gz : this.gz,
+		avatar : this.avatar
 	};
 
 	mongodb.open(function(err,db){
@@ -57,4 +58,23 @@ User.get = function(username,callback) {
 			});
 		});
 	});
-}
+};
+
+User.updateAvatar = function(username,avatarInfo,callback) {
+	mongodb.open(function(err,db){
+		if(err) {
+			callback(err);
+		}
+
+		db.collection('user',function(err,collection){
+			if(err) {
+				mongodb.close();
+				callback(err);
+			}
+			collection.update({name:username},{$set:{avatar:avatarInfo}},function(err,result){
+				mongodb.close();
+				callback(err,result);
+			});
+		});
+	});
+};

@@ -4,6 +4,9 @@
  
 		var uploaded = {},isPost = 0;
 
+		$('.m-avatar .slice').css({
+	    			'background-image': 'url('+$.getCookie('big')+')'
+	    });
 		//loading all related post 
 		
 
@@ -299,6 +302,9 @@
 	    	if(id == "avatar") {
 	    		console.log(data);
 	    		$('#avatar_editor_dialog').modal('hide');
+	    		$('.m-avatar .slice').css({
+	    			'background-image': 'url('+$.getCookie('big')+')'
+	    		});
 	    		window.location.href="/user/" + $.getCookie('username'); 
 	    	}
 		};

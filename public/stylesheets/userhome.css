@@ -375,10 +375,16 @@ button {
 	position: relative;
 	border: 8px solid #fff;
 	-webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.05);
 	box-shadow: 1px 1px 2px rgba(0,0,0,0.05);
 	background: #333;
 	-webkit-perspective: 400px;
+	-moz-perspective: 400px;
 	-webkit-transition: width 1s ease-in-out;
+	-moz-transition: width 1s ease-in-out;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	-ms-box-sizing: content-box;
 	box-sizing: content-box;
 }
 
@@ -389,18 +395,21 @@ button {
     right: 0;
     background: #666;
     z-index: 0;
-    box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	-ms-box-sizing: content-box;
+	box-sizing: content-box;
 }
 
 .view-back span {
 	font-family: 'Open Sans Condensed','Arial Narrow', serif;
-    display: block;
-    float: right;
-    padding: 5px 20px 5px;
-    width: 100%;
-    text-align: right;
-    font-size: 14px;
-    color: rgba(255,255,255,0.6);
+	display: block;
+	float: right;
+	padding: 5px 20px 5px;
+	width: 100%;
+	text-align: right;
+	font-size: 14px;
+	color: rgba(255,255,255,0.6);
 }
 
 .view-back span b {
@@ -452,8 +461,9 @@ button {
 	-ms-transform-origin: left center;
 	transform-origin: left center;
 	-webkit-transition: -webkit-transform 200ms ease-in-out;
+	-moz-transition: -webkit-transform 200ms ease-in-out;
 
-	background-image:url(/zzy7186/avatar/big.jpg);
+	/*background-image:url(/zzy7186/avatar/big.jpg);*/
 }
 
 .m-avatar .s2, 
@@ -543,16 +553,32 @@ button {
 
 .m-avatar .s2 > .overlay {
 	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255, 255, 255, 0.2) 100%);
+	background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255, 255, 255, 0.2) 100%);
+	background: -o-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255, 255, 255, 0.2) 100%);
+	background: -ms-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255, 255, 255, 0.2) 100%);
+	background: linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255, 255, 255, 0.2) 100%);
 }
 
 .m-avatar .s3 > .overlay {
 	background: -webkit-linear-gradient(right, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 100%);
+	background: -moz-linear-gradient(right, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 100%);
+	background: -o-linear-gradient(right, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 100%);
+	background: -ms-linear-gradient(right, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 100%);
+	background: linear-gradient(right, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 100%);
 }
 
 .m-avatar .s4 > .overlay {
 	background: -webkit-linear-gradient(left, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 100%);
+	background: -moz-linear-gradient(left, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 100%);
+	background: -o-linear-gradient(left, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 100%);
+	background: -ms-linear-gradient(left, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 100%);
+	background: linear-gradient(left, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 100%);
 }
 
 .m-avatar .s5 > .overlay {
 	background: -webkit-linear-gradient(left, rgba(0,0,0,0.3) 0%,rgba(0,0,0,0) 100%);
+	background: -moz-linear-gradient(left, rgba(0,0,0,0.3) 0%,rgba(0,0,0,0) 100%);
+	background: -o-linear-gradient(left, rgba(0,0,0,0.3) 0%,rgba(0,0,0,0) 100%);
+	background: -ms-linear-gradient(left, rgba(0,0,0,0.3) 0%,rgba(0,0,0,0) 100%);
+	background: linear-gradient(left, rgba(0,0,0,0.3) 0%,rgba(0,0,0,0) 100%);
 }

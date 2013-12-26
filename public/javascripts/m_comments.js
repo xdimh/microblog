@@ -238,7 +238,7 @@
 								.data({'itemsDiv':$itemsDiv}),
 					$a = $('<a href="javascript:void(0)" class="sm-avatar"></a>'),
 					$avatar = $('<img>').attr({
-						src: "/" + value.reviewer + "/avatar/small.jpg"
+						src: $.getCookie('small')
 					}),
 					$iWraper = $('<div>').addClass('i-wrap'),
 					$uname = $('<a href="javascript:void(0)" class="u-name"></a>').text(value.reviewer + ": "),

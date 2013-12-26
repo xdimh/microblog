@@ -6,7 +6,7 @@
 								diff = nowDate.getTime() - time;
 
 							if(diff > 86400000) {
-								return getFormatDateStr(postDate);
+								return $.getFormatDateStr(postDate);
 							} else if(diff > 3600000){
 								return Math.floor(diff/3600000) + '小时前';
 							} else if(diff > 60000){
@@ -27,7 +27,7 @@
 								d = date.getDay() + 1,
 								h = date.getHours(),
 								mi = date.getMinutes();
-							return y + '-' + addZero(m) + '-' + addZero(d) + ' ' + addZero(h) + ':' + addZero(mi);
+							return y + '-' + $.addZero(m) + '-' + $.addZero(d) + ' ' + $.addZero(h) + ':' + $.addZero(mi);
 					}
 	});
 })(jQuery,window);

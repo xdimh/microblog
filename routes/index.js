@@ -359,3 +359,11 @@ exports.delCommentById = function(req,res) {
 		res.send({"status":'succ'});
 	});
 };
+
+exports.test = function(req,res) {
+	 res.render('test');
+};
+
+exports.getprize = function(req,res) {
+	 res.render('getPrize');
+};

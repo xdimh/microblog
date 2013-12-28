@@ -72,7 +72,8 @@ app.post('/displayMyPost',routes.displayMyPost);
 app.post('/dsc',routes.displayAllCommentsByPostId);
 app.post('/svc',routes.saveComment);
 app.post('/delc',routes.delCommentById);
-
+app.get('/test',routes.test);
+app.get('/getprize',routes.getprize);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
